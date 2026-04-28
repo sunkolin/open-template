@@ -198,27 +198,29 @@ document.getElementById('passwordForm').addEventListener('submit', function(e) {
 
 // 退出登录
 function logout() {
-    if (!confirm('确定要退出登录吗？')) {
-        return;
-    }
-    
-    const token = getToken();
-    fetch('/logout', {
-        method: 'POST',
-        headers: {
-            'Authorization': 'Bearer ' + token
+    confirm('确定要退出登录吗？', function(result) {
+        if (!result) {
+            return;
         }
-    })
-    .then(response => response.json())
-    .then(data => {
-        // 无论成功与否，都清除本地存储并跳转
-        localStorage.removeItem('token');
-        window.location.href = '/login.html';
-    })
-    .catch(error => {
-        console.error('退出登录失败:', error);
-        // 即使网络错误，也清除本地存储并跳转
-        localStorage.removeItem('token');
-        window.location.href = '/login.html';
+        
+        const token = getToken();
+        fetch('/logout', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // 无论成功与否，都清除本地存储并跳转
+            localStorage.removeItem('token');
+            window.location.href = '/login.html';
+        })
+        .catch(error => {
+            console.error('退出登录失败:', error);
+            // 即使网络错误，也清除本地存储并跳转
+            localStorage.removeItem('token');
+            window.location.href = '/login.html';
+        });
     });
 }
