@@ -5,36 +5,27 @@ window.addEventListener('load', function() {
 
 // 检查登录状态
 function checkLoginStatus() {
-    const userInfo = localStorage.getItem('userInfo');
-    if (!userInfo) {
+    const token = localStorage.getItem('token');
+    if (!token) {
         return;
     }
     
-    try {
-        const user = JSON.parse(userInfo);
-        if (!user.token) {
-            return;
+    // 直接调用需要认证的接口来检查登录状态
+    fetch('/getUser', {
+        headers: {
+            'Authorization': 'Bearer ' + token
         }
-        
-        // 直接调用需要认证的接口来检查登录状态
-        fetch('/getUser', {
-            headers: {
-                'Authorization': 'Bearer ' + user.token
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.code === 0 && data.data) {
-                // 已登录，跳转到主页
-                window.location.href = '/index.html';
-            }
-        })
-        .catch(error => {
-            console.error('检查登录状态失败:', error);
-        });
-    } catch (e) {
-        console.error('解析用户信息失败:', e);
-    }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.code === 0 && data.data) {
+            // 已登录，跳转到主页
+            window.location.href = '/index.html';
+        }
+    })
+    .catch(error => {
+        console.error('检查登录状态失败:', error);
+    });
 }
 
 // 登录表单提交
@@ -76,12 +67,12 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
         if (data.code === 0) {
             // 登录成功
             showSuccess('登录成功，正在跳转...');
-            
-            // 保存用户信息到localStorage（始终保存，用于维持会话）
-            if (data.data) {
-                localStorage.setItem('userInfo', JSON.stringify(data.data));
+                            
+            // 只保存token到localStorage
+            if (data.data && data.data.token) {
+                localStorage.setItem('token', data.data.token);
             }
-            
+                            
             // 延迟跳转到主页
             setTimeout(() => {
                 window.location.href = '/index.html';

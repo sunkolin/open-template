@@ -7,16 +7,7 @@ window.addEventListener('load', function() {
 
 // 获取Token
 function getToken() {
-    const userInfo = localStorage.getItem('userInfo');
-    if (userInfo) {
-        try {
-            const user = JSON.parse(userInfo);
-            return user.token || null;
-        } catch (e) {
-            console.error('解析用户信息失败:', e);
-        }
-    }
-    return null;
+    return localStorage.getItem('token');
 }
 
 // 检查登录并加载用户信息
@@ -221,13 +212,13 @@ function logout() {
     .then(response => response.json())
     .then(data => {
         // 无论成功与否，都清除本地存储并跳转
-        localStorage.removeItem('userInfo');
+        localStorage.removeItem('token');
         window.location.href = '/login.html';
     })
     .catch(error => {
         console.error('退出登录失败:', error);
         // 即使网络错误，也清除本地存储并跳转
-        localStorage.removeItem('userInfo');
+        localStorage.removeItem('token');
         window.location.href = '/login.html';
     });
 }

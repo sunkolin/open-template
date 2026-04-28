@@ -2,18 +2,9 @@ let currentPage = 1;
 let pageSize = 10;
 let totalPages = 0;
 
-// Get Token from userInfo
+// Get Token from localStorage
 function getToken() {
-    const userInfo = localStorage.getItem('userInfo');
-    if (userInfo) {
-        try {
-            const user = JSON.parse(userInfo);
-            return user.token || null;
-        } catch (e) {
-            console.error('解析用户信息失败:', e);
-        }
-    }
-    return null;
+    return localStorage.getItem('token');
 }
 
 // Check authentication
