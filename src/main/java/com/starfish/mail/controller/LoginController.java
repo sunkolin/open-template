@@ -37,22 +37,26 @@ public class LoginController {
     public Result<UserResponse> login(@RequestBody LoginRequest loginRequest) {
         // 参数验证
         if (StrUtil.isBlank(loginRequest.getUsername()) || StrUtil.isBlank(loginRequest.getPassword())) {
-            return Result.fail(400, "用户名和密码不能为空");
+            return Result.fail(400, "登录账号和密码不能为空");
         }
 
-        // 查询用户
+        // 查询用户（支持邮箱或手机号登录）
         LambdaQueryWrapper<UserEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(UserEntity::getUserName, loginRequest.getUsername());
+        queryWrapper.and(wrapper -> 
+            wrapper.eq(UserEntity::getEmail, loginRequest.getUsername())
+                   .or()
+                   .eq(UserEntity::getMobile, loginRequest.getUsername())
+        );
         UserEntity user = userService.selectOne(queryWrapper);
 
         if (user == null) {
-            return Result.fail(401, "用户名或密码错误");
+            return Result.fail(401, "邮箱/手机号或密码错误");
         }
 
         // 验证密码（这里使用MD5加密，实际生产环境建议使用BCrypt）
         String encryptedPassword = DigestUtil.md5Hex(loginRequest.getPassword());
         if (!encryptedPassword.equals(user.getPassword())) {
-            return Result.fail(401, "用户名或密码错误");
+            return Result.fail(401, "邮箱/手机号或密码错误");
         }
 
         // 生成JWT Token
@@ -64,6 +68,7 @@ public class LoginController {
         response.setUsername(user.getUserName());
         response.setNickName(user.getNickName());
         response.setEmail(user.getEmail());
+        response.setMobile(user.getMobile());
         response.setToken(token);
 
         return Result.success(response);

@@ -41,7 +41,7 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
     
     // 验证输入
     if (!username || !password) {
-        showError('请输入用户名和密码');
+        showError('请输入邮箱或手机号和密码');
         return;
     }
     
