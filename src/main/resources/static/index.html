@@ -532,24 +532,7 @@
                     <span>首页</span>
                 </a>
             </li>
-            <li>
-                <a href="#mail-push">
-                    <i class="bi bi-send"></i>
-                    <span>邮件推送</span>
-                </a>
-            </li>
-            <li>
-                <a href="#sender-manage">
-                    <i class="bi bi-envelope"></i>
-                    <span>发件人管理</span>
-                </a>
-            </li>
-            <li>
-                <a href="#receiver-manage">
-                    <i class="bi bi-inbox"></i>
-                    <span>收件人管理</span>
-                </a>
-            </li>
+
             <li>
                 <a href="#user-manage" id="menu-user-manage">
                     <i class="bi bi-people"></i>
@@ -577,22 +560,7 @@
                     <p>这是一个功能强大的邮件批量推送管理平台，帮助您高效管理邮件发送任务</p>
                 </div>
 
-                <div class="feature-grid">
-                    <div class="feature-card" onclick="alert('功能开发中...')">
-                        <i class="bi bi-send"></i>
-                        <h3>邮件推送</h3>
-                        <p>创建和管理邮件发送任务，支持批量发送</p>
-                    </div>
-                    <div class="feature-card" onclick="alert('功能开发中...')">
-                        <i class="bi bi-envelope"></i>
-                        <h3>发件人管理</h3>
-                        <p>配置和管理发件人邮箱账户信息</p>
-                    </div>
-                    <div class="feature-card" onclick="alert('功能开发中...')">
-                        <i class="bi bi-inbox"></i>
-                        <h3>收件人管理</h3>
-                        <p>管理收件人列表和邮箱地址</p>
-                    </div>
+
                     <div class="feature-card" onclick="switchToSection('user-manage')">
                         <i class="bi bi-people"></i>
                         <h3>用户管理</h3>
@@ -723,146 +691,7 @@
             </div>
         </div>
 
-        <!-- 发件人管理视图 -->
-        <div id="view-sender-manage" class="section-view">
-            <div class="content-wrapper">
-                <h2 class="page-title"><i class="bi bi-envelope"></i> 发件人管理</h2>
 
-                <div class="user-toolbar">
-                    <div class="search-form">
-                        <input type="text" id="searchSenderEmail" placeholder="发件人邮箱">
-                        <select id="searchSenderStatus" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px;">
-                            <option value="">全部状态</option>
-                            <option value="1">有效</option>
-                            <option value="2">无效</option>
-                        </select>
-                        <button class="btn btn-primary" onclick="searchSenders()">搜索</button>
-                        <button class="btn" onclick="resetSenderSearch()">重置</button>
-                    </div>
-                    <button class="btn btn-success" onclick="showSenderCreateModal()">新增发件人</button>
-                </div>
-
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>发件人邮箱</th>
-                                <th>状态</th>
-                                <th>创建时间</th>
-                                <th>修改时间</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody id="senderTableBody">
-                            <tr>
-                                <td colspan="6" class="loading">加载中...</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <div class="pagination" id="senderPagination">
-                        <!-- Pagination will be rendered here -->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 收件人管理视图 -->
-        <div id="view-receiver-manage" class="section-view">
-            <div class="content-wrapper">
-                <h2 class="page-title"><i class="bi bi-inbox"></i> 收件人管理</h2>
-
-                <div class="user-toolbar">
-                    <div class="search-form">
-                        <input type="text" id="searchReceiverEmail" placeholder="收件人邮箱">
-                        <select id="searchReceiverStatus" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px;">
-                            <option value="">全部状态</option>
-                            <option value="1">可用</option>
-                            <option value="2">不可用</option>
-                        </select>
-                        <button class="btn btn-primary" onclick="searchReceivers()">搜索</button>
-                        <button class="btn" onclick="resetReceiverSearch()">重置</button>
-                    </div>
-                    <button class="btn btn-success" onclick="showReceiverCreateModal()">新增收件人</button>
-                </div>
-
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>收件人邮箱</th>
-                                <th>状态</th>
-                                <th>创建时间</th>
-                                <th>更新时间</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody id="receiverTableBody">
-                            <tr>
-                                <td colspan="6" class="loading">加载中...</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <div class="pagination" id="receiverPagination">
-                        <!-- Pagination will be rendered here -->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 邮件推送视图 -->
-        <div id="view-mail-push" class="section-view">
-            <div class="content-wrapper">
-                <h2 class="page-title"><i class="bi bi-send"></i> 邮件推送</h2>
-
-                <div class="user-toolbar">
-                    <div class="search-form">
-                        <input type="text" id="searchTaskName" placeholder="任务名称">
-                        <select id="searchTaskStatus" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px;">
-                            <option value="">全部状态</option>
-                            <option value="0">未开始</option>
-                            <option value="1">运行中</option>
-                            <option value="2">已完成</option>
-                            <option value="3">已停止</option>
-                            <option value="4">失败</option>
-                        </select>
-                        <button class="btn btn-primary" onclick="searchTasks()">搜索</button>
-                        <button class="btn" onclick="resetTaskSearch()">重置</button>
-                    </div>
-                    <button class="btn btn-success" onclick="showTaskCreateModal()">新建任务</button>
-                </div>
-
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>任务名称</th>
-                                <th>邮件标题</th>
-                                <th>总邮件数</th>
-                                <th>成功/失败</th>
-                                <th>状态</th>
-                                <th>创建人</th>
-                                <th>创建时间</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody id="taskTableBody">
-                            <tr>
-                                <td colspan="9" class="loading">加载中...</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <div class="pagination" id="taskPagination">
-                        <!-- Pagination will be rendered here -->
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- Create/Edit Modal -->
@@ -923,161 +752,7 @@
         </div>
     </div>
 
-    <!-- Sender Create/Edit Modal -->
-    <div id="senderModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="senderModalTitle">新增发件人</h2>
-                <span class="close" onclick="closeSenderModal()">&times;</span>
-            </div>
-            <form id="senderForm">
-                <input type="hidden" id="senderId">
-                <div class="form-group">
-                    <label for="senderEmail">发件人邮箱 *</label>
-                    <input type="email" id="senderEmail" required>
-                </div>
-                <div class="form-group" id="senderPasswordGroup">
-                    <label for="senderPassword">邮箱密码</label>
-                    <input type="password" id="senderPassword">
-                </div>
-                <div class="form-group">
-                    <label for="senderAuthCode">授权码</label>
-                    <input type="text" id="senderAuthCode">
-                </div>
-                <div class="form-group">
-                    <label for="senderStatus">状态</label>
-                    <select id="senderStatus">
-                        <option value="1">有效</option>
-                        <option value="2">无效</option>
-                    </select>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn" onclick="closeSenderModal()">取消</button>
-                    <button type="submit" class="btn btn-primary">保存</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Receiver Create/Edit Modal -->
-    <div id="receiverModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="receiverModalTitle">新增收件人</h2>
-                <span class="close" onclick="closeReceiverModal()">&times;</span>
-            </div>
-            <form id="receiverForm">
-                <input type="hidden" id="receiverId">
-                <div class="form-group">
-                    <label for="receiverEmail">收件人邮箱 *</label>
-                    <input type="email" id="receiverEmail" required>
-                </div>
-                <div class="form-group">
-                    <label for="receiverStatus">状态</label>
-                    <select id="receiverStatus">
-                        <option value="1">可用</option>
-                        <option value="2">不可用</option>
-                    </select>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn" onclick="closeReceiverModal()">取消</button>
-                    <button type="submit" class="btn btn-primary">保存</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Task Create/Edit Modal -->
-    <div id="taskModal" class="modal">
-        <div class="modal-content" style="max-width: 800px;">
-            <div class="modal-header">
-                <h2 id="taskModalTitle">新建推送任务</h2>
-                <span class="close" onclick="closeTaskModal()">&times;</span>
-            </div>
-            <form id="taskForm">
-                <input type="hidden" id="taskId">
-                <div class="form-group">
-                    <label for="taskName">任务名称 *</label>
-                    <input type="text" id="taskName" required placeholder="请输入任务名称">
-                </div>
-                <div class="form-group">
-                    <label for="emailTitle">邮件标题 *</label>
-                    <input type="text" id="emailTitle" required placeholder="请输入邮件标题">
-                </div>
-                <div class="form-group">
-                    <label for="emailContent">邮件内容 *</label>
-                    <textarea id="emailContent" required placeholder="请输入邮件内容" style="min-height: 150px;"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>发件人类型</label>
-                    <select id="senderType" onchange="onSenderTypeChange()">
-                        <option value="1">系统内置发件人（使用全部有效发件人）</option>
-                        <option value="2">手动输入</option>
-                    </select>
-                    <div style="color: #7f8c8d; font-size: 14px; margin-top: 5px;">系统内置将使用数据库中所有状态为"有效"的发件人</div>
-                </div>
-                <div class="form-group" id="senderEmailGroup" style="display:none;">
-                    <label for="taskSenderEmail">发件人邮箱</label>
-                    <input type="email" id="taskSenderEmail" placeholder="请输入发件人邮箱">
-                </div>
-                <div class="form-group" id="senderPasswordGroup" style="display:none;">
-                    <label for="taskSenderPassword">密码/授权码</label>
-                    <input type="password" id="taskSenderPassword" placeholder="请输入密码或授权码">
-                </div>
-                <div class="form-group">
-                    <label>收件人类型</label>
-                    <select id="receiverType" onchange="onReceiverTypeChange()">
-                        <option value="1">系统内置收件人（使用全部有效收件人）</option>
-                        <option value="2">手动输入</option>
-                    </select>
-                    <div style="color: #7f8c8d; font-size: 14px; margin-top: 5px;">系统内置将使用数据库中所有状态为"可用"的收件人</div>
-                </div>
-                <div class="form-group" id="receiverEmailsGroup" style="display:none;">
-                    <label for="taskReceiverEmails">收件人邮箱列表</label>
-                    <textarea id="taskReceiverEmails" placeholder="请输入收件人邮箱，多个邮箱用逗号分隔" style="min-height: 100px;"></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn" onclick="closeTaskModal()">取消</button>
-                    <button type="submit" class="btn btn-primary">保存</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Task Detail Modal -->
-    <div id="taskDetailModal" class="modal">
-        <div class="modal-content" style="max-width: 900px;">
-            <div class="modal-header">
-                <h2>任务详情 - <span id="detailTaskName"></span></h2>
-                <span class="close" onclick="closeTaskDetailModal()">&times;</span>
-            </div>
-            <div id="taskDetailContent">
-                <div style="margin-bottom: 20px;">
-                    <h4 style="color: #34495e; margin-bottom: 15px;">发送记录</h4>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>发件人</th>
-                                <th>收件人</th>
-                                <th>状态</th>
-                                <th>失败原因</th>
-                                <th>重试次数</th>
-                                <th>发送时间</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody id="recordTableBody">
-                            <tr>
-                                <td colspan="8" class="loading">加载中...</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="pagination" id="recordPagination"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
@@ -1246,9 +921,7 @@
             const menuMap = {
                 'home': 'a[href="/index.html"]',
                 'user-manage': '#menu-user-manage',
-                'settings': '#menu-settings',
-                'sender-manage': 'a[href="#sender-manage"]',
-                'receiver-manage': 'a[href="#receiver-manage"]'
+                'settings': '#menu-settings'
             };
             
             const menuSelector = menuMap[sectionName];
@@ -1267,21 +940,6 @@
             // 如果是个人设置视图，加载用户信息
             if (sectionName === 'settings') {
                 loadSettingsUserInfo();
-            }
-            
-            // 如果是发件人管理视图，加载数据
-            if (sectionName === 'sender-manage') {
-                loadSenders();
-            }
-            
-            // 如果是收件人管理视图，加载数据
-            if (sectionName === 'receiver-manage') {
-                loadReceivers();
-            }
-            
-            // 如果是邮件推送视图，加载数据
-            if (sectionName === 'mail-push') {
-                loadTasks();
             }
         }
 
