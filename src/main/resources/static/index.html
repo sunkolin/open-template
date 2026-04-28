@@ -855,7 +855,7 @@
                 return;
             }
             
-            fetch('/auth/currentUser', {
+            fetch('/getUser', {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
@@ -879,7 +879,7 @@
                 return;
             }
             
-            fetch('/auth/logout', {
+            fetch('/logout', {
                 method: 'POST'
             })
             .then(response => response.json())
@@ -981,7 +981,7 @@
             if (searchNickName) requestBody.nickName = searchNickName;
 
             try {
-                const response = await fetch('/user/page', {
+                const response = await fetch('/userManage/page', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1142,7 +1142,7 @@
             if (!confirm('确定要删除该用户吗？')) return;
 
             try {
-                const response = await fetch(`/user/${id}`, {
+                const response = await fetch(`/userManage/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': 'Bearer ' + getToken()
@@ -1193,7 +1193,7 @@
             }
 
             try {
-                const url = isEdit ? '/user/update' : '/user/create';
+                const url = isEdit ? '/userManage/update' : '/userManage/create';
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: {
@@ -1228,7 +1228,7 @@
                 return;
             }
             
-            fetch('/auth/currentUser', {
+            fetch('/getUser', {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
@@ -1282,7 +1282,7 @@
                 return;
             }
 
-            fetch('/auth/profile', {
+            fetch('/personalInformation/profile', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1337,7 +1337,7 @@
                 return;
             }
 
-            fetch('/auth/password', {
+            fetch('/personalInformation/password', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

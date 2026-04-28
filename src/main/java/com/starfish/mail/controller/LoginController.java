@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
  * @since 2026-04-22
  */
 @RestController
-@RequestMapping("/auth")
 public class LoginController {
 
     @Resource
@@ -86,23 +85,17 @@ public class LoginController {
      *
      * @return 用户信息
      */
-    @GetMapping("/currentUser")
-    public Result<LoginResponse> getCurrentUser() {
+    @GetMapping("/getUser")
+    public Result<LoginResponse> getUser() {
         User user = UserContext.getUser();
         if (user == null) {
             return Result.fail(401, "未登录");
         }
-
-        UserEntity userEntity = userService.selectById(user.getUserId());
-        if (userEntity == null) {
-            return Result.fail(404, "用户不存在");
-        }
         
         LoginResponse response = new LoginResponse();
-        response.setUserId(userEntity.getId());
-        response.setUsername(userEntity.getUserName());
-        response.setNickName(userEntity.getNickName());
-        response.setEmail(userEntity.getEmail());
+        response.setUserId(user.getUserId());
+        response.setUsername(user.getUserName());
+        response.setNickName(user.getNickName());
         // Token由前端管理，这里不返回
 
         return Result.success(response);

@@ -39,7 +39,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             uri.endsWith(".jpg") ||
             uri.endsWith(".gif") ||
             uri.endsWith(".ico") ||
-            uri.startsWith("/auth/login")) {
+            uri.startsWith("/login")) {
             return true;
         }
         

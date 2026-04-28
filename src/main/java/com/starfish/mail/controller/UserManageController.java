@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.*;
  * @since 2026-04-22
  */
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/userManage")
+public class UserManageController {
 
     @Resource
     private UserService userService;

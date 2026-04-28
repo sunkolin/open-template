@@ -15,15 +15,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 
 /**
- * 个人设置控制器
+ * 个人信息控制器
  *
  * @author sunkolin
  * @version 1.0.0
  * @since 2026-04-22
  */
 @RestController
-@RequestMapping("/auth")
-public class PersonalSettingController {
+@RequestMapping("/personalInformation")
+public class PersonalInformationController {
 
     @Resource
     private UserService userService;
