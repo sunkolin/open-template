@@ -48,7 +48,10 @@ public class WebConfig implements WebMvcConfigurer {
                         "/users.html",
                         "/settings.html",
                         "/login",
-                        "/static/**"
+                        "/static/**",
+                        "/css/**",
+                        "/js/**",
+                        "/vendor/**"
                 );
     }
 
