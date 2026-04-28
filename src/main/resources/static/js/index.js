@@ -196,20 +196,18 @@ let totalPages = 0;
 async function loadUsers() {
     console.log('开始加载用户列表...');
     
-    const searchUserName = document.getElementById('searchUserName').value;
+    const searchNickName = document.getElementById('searchNickName').value;
     const searchMobile = document.getElementById('searchMobile').value;
     const searchEmail = document.getElementById('searchEmail').value;
-    const searchNickName = document.getElementById('searchNickName').value;
 
     const requestBody = {
         pageNum: currentPage,
         pageSize: pageSize
     };
 
-    if (searchUserName) requestBody.userName = searchUserName;
+    if (searchNickName) requestBody.nickName = searchNickName;
     if (searchMobile) requestBody.mobile = searchMobile;
     if (searchEmail) requestBody.email = searchEmail;
-    if (searchNickName) requestBody.nickName = searchNickName;
 
     try {
         console.log('发送请求到 /userManage/page');
@@ -272,7 +270,7 @@ function renderTable(users) {
     
     if (!users || users.length === 0) {
         console.log('没有数据，显示暂无数据');
-        tbody.innerHTML = '<tr><td colspan="7" class="empty">暂无数据</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" class="empty">暂无数据</td></tr>';
         return;
     }
 
@@ -280,10 +278,9 @@ function renderTable(users) {
     const html = users.map(user => `
         <tr>
             <td>${user.id}</td>
-            <td>${user.userName || '-'}</td>
             <td>${user.nickName || '-'}</td>
-            <td>${user.mobile || '-'}</td>
             <td>${user.email || '-'}</td>
+            <td>${user.mobile || '-'}</td>
             <td>${formatDate(user.createTime)}</td>
             <td>
                 <button class="btn btn-edit" onclick="editUser(${user.id})">编辑</button>
@@ -345,10 +342,9 @@ function searchUsers() {
 
 // Reset search
 function resetSearch() {
-    document.getElementById('searchUserName').value = '';
+    document.getElementById('searchNickName').value = '';
     document.getElementById('searchMobile').value = '';
     document.getElementById('searchEmail').value = '';
-    document.getElementById('searchNickName').value = '';
     currentPage = 1;
     loadUsers();
 }
@@ -360,7 +356,6 @@ function showCreateModal() {
     document.getElementById('userId').value = '';
     document.getElementById('passwordGroup').style.display = 'block';
     document.getElementById('userPassword').required = true;
-    document.getElementById('userUserName').readOnly = false;
     document.getElementById('userModal').style.display = 'block';
 }
 
@@ -380,17 +375,11 @@ async function editUser(id) {
             const user = result.data;
             document.getElementById('modalTitle').textContent = '编辑用户';
             document.getElementById('userId').value = user.id;
-            document.getElementById('userUserName').value = user.userName || '';
-            document.getElementById('userUserName').readOnly = true;
             document.getElementById('passwordGroup').style.display = 'none';
             document.getElementById('userPassword').required = false;
             document.getElementById('userNickName').value = user.nickName || '';
-            document.getElementById('userFullName').value = user.fullName || '';
             document.getElementById('userMobile').value = user.mobile || '';
             document.getElementById('userEmail').value = user.email || '';
-            document.getElementById('userSex').value = user.sex !== null ? user.sex : '';
-            document.getElementById('userBirthday').value = user.birthday ? user.birthday.split('T')[0] : '';
-            document.getElementById('userRemark').value = user.remark || '';
             document.getElementById('userModal').style.display = 'block';
         } else {
             alert('获取用户信息失败: ' + result.message);
@@ -440,14 +429,9 @@ document.getElementById('userForm').addEventListener('submit', async function(e)
     const isEdit = !!userId;
 
     const data = {
-        userName: document.getElementById('userUserName').value,
         nickName: document.getElementById('userNickName').value,
-        fullName: document.getElementById('userFullName').value,
         mobile: document.getElementById('userMobile').value,
-        email: document.getElementById('userEmail').value,
-        sex: document.getElementById('userSex').value ? parseInt(document.getElementById('userSex').value) : null,
-        birthday: document.getElementById('userBirthday').value || null,
-        remark: document.getElementById('userRemark').value
+        email: document.getElementById('userEmail').value
     };
 
     if (!isEdit) {
@@ -501,9 +485,9 @@ function loadSettingsUserInfo() {
         .then(data => {
             if (data.code === 0 && data.data) {
                 const user = data.data;
-                document.getElementById('settingsUsername').value = user.username || '';
                 document.getElementById('settingsNickName').value = user.nickName || '';
                 document.getElementById('settingsEmail').value = user.email || '';
+                document.getElementById('settingsMobile').value = user.mobile || '';
             }
         })
         .catch(error => {
@@ -534,6 +518,7 @@ document.getElementById('profileForm').addEventListener('submit', function(e) {
     
     const nickName = document.getElementById('settingsNickName').value.trim();
     const email = document.getElementById('settingsEmail').value.trim();
+    const mobile = document.getElementById('settingsMobile').value.trim();
     
     if (!nickName || !email) {
         showSettingsAlert('error', '请填写所有必填字段');
@@ -554,7 +539,8 @@ document.getElementById('profileForm').addEventListener('submit', function(e) {
         },
         body: JSON.stringify({
             nickName: nickName,
-            email: email
+            email: email,
+            mobile: mobile
         })
     })
     .then(response => response.json())

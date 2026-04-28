@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ 。<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -87,10 +87,9 @@
 
                 <div class="user-toolbar">
                     <div class="search-form">
-                        <input type="text" id="searchUserName" placeholder="用户名">
-                        <input type="text" id="searchMobile" placeholder="手机号">
-                        <input type="text" id="searchEmail" placeholder="邮箱">
                         <input type="text" id="searchNickName" placeholder="昵称">
+                        <input type="text" id="searchEmail" placeholder="邮箱">
+                        <input type="text" id="searchMobile" placeholder="手机号">
                         <button class="btn btn-primary" onclick="searchUsers()">搜索</button>
                         <button class="btn" onclick="resetSearch()">重置</button>
                     </div>
@@ -102,17 +101,16 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>用户名</th>
                                 <th>昵称</th>
-                                <th>手机号</th>
                                 <th>邮箱</th>
+                                <th>手机号</th>
                                 <th>创建时间</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
                         <tbody id="userTableBody">
                             <tr>
-                                <td colspan="7" class="loading">加载中...</td>
+                                <td colspan="6" class="loading">加载中...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -137,12 +135,6 @@
                     <h3 style="font-size: 18px; color: #34495e; margin-bottom: 20px; font-weight: 600;"><i class="bi bi-person"></i> 基本信息</h3>
                     <form id="profileForm">
                         <div class="mb-3">
-                            <label for="settingsUsername" class="form-label" style="font-weight: 500; color: #555;">用户名</label>
-                            <input type="text" class="form-control" id="settingsUsername" disabled style="border-radius: 8px; padding: 10px 15px; border: 2px solid #e1e5e9;">
-                            <div style="color: #7f8c8d; font-size: 14px; margin-top: 5px;">用户名不可修改</div>
-                        </div>
-
-                        <div class="mb-3">
                             <label for="settingsNickName" class="form-label" style="font-weight: 500; color: #555;">昵称</label>
                             <input type="text" class="form-control" id="settingsNickName" placeholder="请输入昵称" required style="border-radius: 8px; padding: 10px 15px; border: 2px solid #e1e5e9;">
                         </div>
@@ -150,6 +142,11 @@
                         <div class="mb-3">
                             <label for="settingsEmail" class="form-label" style="font-weight: 500; color: #555;">邮箱</label>
                             <input type="email" class="form-control" id="settingsEmail" placeholder="请输入邮箱" required style="border-radius: 8px; padding: 10px 15px; border: 2px solid #e1e5e9;">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="settingsMobile" class="form-label" style="font-weight: 500; color: #555;">手机号</label>
+                            <input type="text" class="form-control" id="settingsMobile" placeholder="请输入手机号" style="border-radius: 8px; padding: 10px 15px; border: 2px solid #e1e5e9;">
                         </div>
 
                         <button type="submit" class="btn btn-primary" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; border-radius: 8px; padding: 10px 30px; color: white; font-weight: 600;">
@@ -201,45 +198,20 @@
             <form id="userForm">
                 <input type="hidden" id="userId">
                 <div class="form-group">
-                    <label for="userUserName">用户名 *</label>
-                    <input type="text" id="userUserName" required>
+                    <label for="userNickName">昵称</label>
+                    <input type="text" id="userNickName">
                 </div>
                 <div class="form-group" id="passwordGroup">
                     <label for="userPassword">密码 *</label>
                     <input type="password" id="userPassword">
                 </div>
                 <div class="form-group">
-                    <label for="userNickName">昵称</label>
-                    <input type="text" id="userNickName">
-                </div>
-                <div class="form-group">
-                    <label for="userFullName">姓名</label>
-                    <input type="text" id="userFullName">
-                </div>
-                <div class="form-group">
-                    <label for="userMobile">手机号</label>
-                    <input type="text" id="userMobile">
-                </div>
-                <div class="form-group">
                     <label for="userEmail">邮箱</label>
                     <input type="email" id="userEmail">
                 </div>
                 <div class="form-group">
-                    <label for="userSex">性别</label>
-                    <select id="userSex">
-                        <option value="">请选择</option>
-                        <option value="0">女</option>
-                        <option value="1">男</option>
-                        <option value="2">未知</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="userBirthday">生日</label>
-                    <input type="date" id="userBirthday">
-                </div>
-                <div class="form-group">
-                    <label for="userRemark">备注</label>
-                    <textarea id="userRemark"></textarea>
+                    <label for="userMobile">手机号</label>
+                    <input type="text" id="userMobile">
                 </div>
                 <div class="form-actions">
                     <button type="button" class="btn" onclick="closeModal()">取消</button>
