@@ -67,7 +67,7 @@ spring:
   # datasource
   datasource:
     driverClassName: org.sqlite.JDBC
-    url: jdbc:sqlite:database/mailman.db
+    url: jdbc:sqlite:database/starfish.db
     username: 
     password:
   
