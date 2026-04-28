@@ -125,6 +125,8 @@ function logout() {
 
 // 切换到指定视图
 function switchToSection(sectionName) {
+    console.log('切换到视图:', sectionName);
+    
     // 隐藏所有视图
     document.querySelectorAll('.section-view').forEach(view => {
         view.classList.remove('active');
@@ -139,6 +141,9 @@ function switchToSection(sectionName) {
     const targetView = document.getElementById('view-' + sectionName);
     if (targetView) {
         targetView.classList.add('active');
+        console.log('视图切换成功:', 'view-' + sectionName);
+    } else {
+        console.error('找不到视图:', 'view-' + sectionName);
     }
     
     // 激活对应菜单项
@@ -189,6 +194,8 @@ let totalPages = 0;
 
 // Load users
 async function loadUsers() {
+    console.log('开始加载用户列表...');
+    
     const searchUserName = document.getElementById('searchUserName').value;
     const searchMobile = document.getElementById('searchMobile').value;
     const searchEmail = document.getElementById('searchEmail').value;
@@ -205,6 +212,7 @@ async function loadUsers() {
     if (searchNickName) requestBody.nickName = searchNickName;
 
     try {
+        console.log('发送请求到 /userManage/page');
         const response = await fetch('/userManage/page', {
             method: 'POST',
             headers: {
@@ -214,31 +222,62 @@ async function loadUsers() {
             body: JSON.stringify(requestBody)
         });
 
+        console.log('响应状态:', response.status);
+        
+        if (!response.ok) {
+            console.error('HTTP错误:', response.status, response.statusText);
+            alert('请求失败: ' + response.status + ' ' + response.statusText);
+            return;
+        }
+
         const result = await response.json();
+        console.log('用户列表响应:', result);
+        
+        if (!result) {
+            console.error('响应数据为空');
+            return;
+        }
         
         if (result.code === 0) {
+            if (!result.data || !result.data.records) {
+                console.error('数据结构错误:', result);
+                alert('数据格式错误');
+                return;
+            }
+            console.log('准备渲染表格，记录数:', result.data.records.length);
             renderTable(result.data.records);
             totalPages = result.data.pages;
+            console.log('总页数:', totalPages);
             renderPagination();
+            console.log('用户列表加载完成');
         } else {
             alert('加载失败: ' + result.message);
         }
     } catch (error) {
-        console.error('Error:', error);
+        console.error('加载用户列表错误:', error);
+        console.error('错误详情:', error.message);
         alert('加载失败，请检查网络连接');
     }
 }
 
 // Render table
 function renderTable(users) {
+    console.log('渲染表格，用户数量:', users ? users.length : 0);
     const tbody = document.getElementById('userTableBody');
     
+    if (!tbody) {
+        console.error('找不到 userTableBody 元素');
+        return;
+    }
+    
     if (!users || users.length === 0) {
+        console.log('没有数据，显示暂无数据');
         tbody.innerHTML = '<tr><td colspan="10" class="empty">暂无数据</td></tr>';
         return;
     }
 
-    tbody.innerHTML = users.map(user => `
+    console.log('开始生成表格HTML');
+    const html = users.map(user => `
         <tr>
             <td>${user.id}</td>
             <td>${user.userName || '-'}</td>
@@ -255,6 +294,10 @@ function renderTable(users) {
             </td>
         </tr>
     `).join('');
+    
+    console.log('设置表格HTML');
+    tbody.innerHTML = html;
+    console.log('表格渲染完成');
 }
 
 // Get sex text
@@ -327,7 +370,7 @@ function showCreateModal() {
 // Edit user
 async function editUser(id) {
     try {
-        const response = await fetch(`/user/${id}`, {
+        const response = await fetch(`/userManage/${id}`, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + getToken()

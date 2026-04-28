@@ -159,7 +159,7 @@ function showCreateModal() {
 // Edit user
 async function editUser(id) {
     try {
-        const response = await fetch(`/user/${id}`, {
+        const response = await fetch(`/userManage/${id}`, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + getToken()
