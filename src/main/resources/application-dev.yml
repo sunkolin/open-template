@@ -1,0 +1,68 @@
+server:
+  port: 8080
+  tomcat:
+    threads:
+      max: 200
+    uri-encoding: UTF-8
+    basedir: ${user.home}/opt/${spring.application.name}/tomcat
+    accesslog:
+      enabled: true
+      pattern: common
+      directory: ${user.home}/opt/${spring.application.name}/logs
+      prefix: access_log
+      suffix: .log
+
+logging:
+  config: classpath:logback-spring.xml
+  file:
+    path: ./logs
+
+spring:
+  application:
+    name: mailman
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+    multipart:
+      enabled: true
+      file-size-threshold: 0
+      max-file-size: 10MB
+      max-request-size: 10MB
+      resolve-lazily: false
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: jinkela008@foxmail.com
+    password: ctxeegbnktdpbdfb
+    protocol: smtp
+    defaultEncoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+          from: jinkela008@foxmail.com
+      timeout: 5000
+  task:
+    execution:
+      thread-name-prefix: task-
+      pool:
+        allow-core-thread-timeout: true
+        core-size: 8
+        max-size: 8
+        queue-capacity: 2147483647
+        keep-alive: 60s
+      shutdown:
+        await-termination: true
+        await-termination-period:
+  datasource:
+    driverClassName: org.sqlite.JDBC
+    url: jdbc:sqlite:database/mailman.db
+    username: 
+    password:
+
+mybatis-plus:
+  mapperLocations: classpath:com/starfish/mail/**Mapper.xml
+  typeAliasesPackage: com.starfish.**.model
+  executorType: SIMPLE

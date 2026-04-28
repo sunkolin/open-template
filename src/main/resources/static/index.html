@@ -1,0 +1,2639 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邮件推送系统 - 主页</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* 顶部导航栏 */
+        .top-navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 60px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-weight: 600;
+            font-size: 20px;
+            text-decoration: none;
+        }
+
+        .user-info {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info span {
+            color: white;
+        }
+
+        .btn-logout {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* 左侧菜单栏 */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 60px;
+            bottom: 0;
+            width: 240px;
+            background: #2c3e50;
+            overflow-y: auto;
+            transition: all 0.3s;
+            z-index: 999;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .sidebar-menu a:hover {
+            background: #34495e;
+            color: #3498db;
+        }
+
+        .sidebar-menu a.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .sidebar-menu i {
+            margin-right: 12px;
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* 主内容区 */
+        .main-content {
+            margin-left: 240px;
+            margin-top: 60px;
+            padding: 30px;
+            min-height: calc(100vh - 60px);
+            background: #f5f6fa;
+        }
+
+        .content-wrapper {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .page-title {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        /* 欢迎卡片 */
+        .welcome-section {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .welcome-section h1 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 32px;
+        }
+
+        .welcome-section p {
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+
+        /* 功能卡片 */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            padding: 25px;
+            color: white;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .feature-card i {
+            font-size: 36px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        /* 用户管理样式 */
+        .section-view {
+            display: none;
+        }
+
+        .section-view.active {
+            display: block;
+        }
+
+        .user-toolbar {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .search-form input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #1890ff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #40a9ff;
+        }
+
+        .btn-success {
+            background-color: #52c41a;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #73d13d;
+        }
+
+        .btn-danger {
+            background-color: #ff4d4f;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #ff7875;
+        }
+
+        .btn-edit {
+            background-color: #faad14;
+            color: white;
+            margin-right: 5px;
+        }
+
+        .btn-edit:hover {
+            background-color: #ffc53d;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        thead {
+            background-color: #fafafa;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e8e8e8;
+        }
+
+        th {
+            font-weight: 600;
+            color: #333;
+        }
+
+        tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            gap: 10px;
+        }
+
+        .pagination button {
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background-color: #f5f5f5;
+        }
+
+        .pagination button:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .pagination span {
+            color: #666;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            color: #333;
+            margin: 0;
+        }
+
+        .close {
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        /* 自定义提示框样式 */
+        .custom-alert-overlay {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .custom-alert-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            min-width: 300px;
+            max-width: 500px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 10001;
+        }
+
+        .custom-alert-message {
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .custom-alert-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .custom-alert-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: none;
+        }
+
+        .custom-alert-btn-ok {
+            background-color: #1890ff;
+            color: white;
+        }
+
+        .custom-alert-btn-ok:hover {
+            background-color: #40a9ff;
+        }
+
+        .custom-alert-btn-cancel {
+            background-color: #f5f5f5;
+            color: #333;
+            border: 1px solid #d9d9d9;
+        }
+
+        .custom-alert-btn-cancel:hover {
+            background-color: #e8e8e8;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <div class="top-navbar">
+        <a class="navbar-brand" href="#">📧 邮件推送系统</a>
+        <div class="user-info">
+            <span id="userName"><i class="bi bi-person-circle"></i> 加载中...</span>
+            <button class="btn-logout" onclick="logout()">
+                <i class="bi bi-box-arrow-right"></i> 退出登录
+            </button>
+        </div>
+    </div>
+
+    <!-- 左侧菜单栏 -->
+    <div class="sidebar">
+        <ul class="sidebar-menu">
+            <li>
+                <a href="/index.html" class="active">
+                    <i class="bi bi-house-door"></i>
+                    <span>首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="#mail-push">
+                    <i class="bi bi-send"></i>
+                    <span>邮件推送</span>
+                </a>
+            </li>
+            <li>
+                <a href="#sender-manage">
+                    <i class="bi bi-envelope"></i>
+                    <span>发件人管理</span>
+                </a>
+            </li>
+            <li>
+                <a href="#receiver-manage">
+                    <i class="bi bi-inbox"></i>
+                    <span>收件人管理</span>
+                </a>
+            </li>
+            <li>
+                <a href="#user-manage" id="menu-user-manage">
+                    <i class="bi bi-people"></i>
+                    <span>用户管理</span>
+                </a>
+            </li>
+            <li>
+                <a href="#settings" id="menu-settings">
+                    <i class="bi bi-gear"></i>
+                    <span>个人设置</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="main-content">
+        <!-- 首页视图 -->
+        <div id="view-home" class="section-view active">
+            <div class="content-wrapper">
+                <h2 class="page-title">欢迎使用邮件推送系统</h2>
+                
+                <div class="welcome-section">
+                    <h1>👋 欢迎回来！</h1>
+                    <p>这是一个功能强大的邮件批量推送管理平台，帮助您高效管理邮件发送任务</p>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card" onclick="alert('功能开发中...')">
+                        <i class="bi bi-send"></i>
+                        <h3>邮件推送</h3>
+                        <p>创建和管理邮件发送任务，支持批量发送</p>
+                    </div>
+                    <div class="feature-card" onclick="alert('功能开发中...')">
+                        <i class="bi bi-envelope"></i>
+                        <h3>发件人管理</h3>
+                        <p>配置和管理发件人邮箱账户信息</p>
+                    </div>
+                    <div class="feature-card" onclick="alert('功能开发中...')">
+                        <i class="bi bi-inbox"></i>
+                        <h3>收件人管理</h3>
+                        <p>管理收件人列表和邮箱地址</p>
+                    </div>
+                    <div class="feature-card" onclick="switchToSection('user-manage')">
+                        <i class="bi bi-people"></i>
+                        <h3>用户管理</h3>
+                        <p>管理系统用户和权限设置</p>
+                    </div>
+                    <div class="feature-card" onclick="alert('功能开发中...')">
+                        <i class="bi bi-bar-chart"></i>
+                        <h3>数据统计</h3>
+                        <p>查看邮件发送统计和分析报告</p>
+                    </div>
+                    <div class="feature-card" onclick="alert('功能开发中...')">
+                        <i class="bi bi-gear"></i>
+                        <h3>系统设置</h3>
+                        <p>配置系统参数和个性化选项</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 用户管理视图 -->
+        <div id="view-user-manage" class="section-view">
+            <div class="content-wrapper">
+                <h2 class="page-title"><i class="bi bi-people"></i> 用户管理</h2>
+
+                <div class="user-toolbar">
+                    <div class="search-form">
+                        <input type="text" id="searchUserName" placeholder="用户名">
+                        <input type="text" id="searchMobile" placeholder="手机号">
+                        <input type="text" id="searchEmail" placeholder="邮箱">
+                        <input type="text" id="searchNickName" placeholder="昵称">
+                        <button class="btn btn-primary" onclick="searchUsers()">搜索</button>
+                        <button class="btn" onclick="resetSearch()">重置</button>
+                    </div>
+                    <button class="btn btn-success" onclick="showCreateModal()">新增用户</button>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>用户名</th>
+                                <th>昵称</th>
+                                <th>姓名</th>
+                                <th>手机号</th>
+                                <th>邮箱</th>
+                                <th>性别</th>
+                                <th>备注</th>
+                                <th>创建时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userTableBody">
+                            <tr>
+                                <td colspan="10" class="loading">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="pagination" id="pagination">
+                        <!-- Pagination will be rendered here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 个人设置视图 -->
+        <div id="view-settings" class="section-view">
+            <div class="content-wrapper">
+                <h2 class="page-title"><i class="bi bi-gear"></i> 个人设置</h2>
+
+                <div id="settingsSuccessAlert" class="alert alert-success" style="display:none; margin-bottom: 20px;"></div>
+                <div id="settingsErrorAlert" class="alert alert-danger" style="display:none; margin-bottom: 20px;"></div>
+
+                <!-- 基本信息设置 -->
+                <div class="settings-section" style="margin-bottom: 40px;">
+                    <h3 style="font-size: 18px; color: #34495e; margin-bottom: 20px; font-weight: 600;"><i class="bi bi-person"></i> 基本信息</h3>
+                    <form id="profileForm">
+                        <div class="mb-3">
+                            <label for="settingsUsername" class="form-label" style="font-weight: 500; color: #555;">用户名</label>
+                            <input type="text" class="form-control" id="settingsUsername" disabled style="border-radius: 8px; padding: 10px 15px; border: 2px solid #e1e5e9;">
+                            <div style="color: #7f8c8d; font-size: 14px; margin-top: 5px;">用户名不可修改</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="settingsNickName" class="form-label" style="font-weight: 500; color: #555;">昵称</label>
+                            <input type="text" class="form-control" id="settingsNickName" placeholder="请输入昵称" required style="border-radius: 8px; padding: 10px 15px; border: 2px solid #e1e5e9;">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="settingsEmail" class="form-label" style="font-weight: 500; color: #555;">邮箱</label>
+                            <input type="email" class="form-control" id="settingsEmail" placeholder="请输入邮箱" required style="border-radius: 8px; padding: 10px 15px; border: 2px solid #e1e5e9;">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; border-radius: 8px; padding: 10px 30px; color: white; font-weight: 600;">
+                            <i class="bi bi-check-circle"></i> 保存修改
+                        </button>
+                    </form>
+                </div>
+
+                <hr style="margin: 40px 0;">
+
+                <!-- 密码修改 -->
+                <div class="settings-section">
+                    <h3 style="font-size: 18px; color: #34495e; margin-bottom: 20px; font-weight: 600;"><i class="bi bi-lock"></i> 修改密码</h3>
+                    <form id="passwordForm">
+                        <div class="mb-3">
+                            <label for="oldPassword" class="form-label" style="font-weight: 500; color: #555;">当前密码</label>
+                            <input type="password" class="form-control" id="oldPassword" placeholder="请输入当前密码" required style="border-radius: 8px; padding: 10px 15px; border: 2px solid #e1e5e9;">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label" style="font-weight: 500; color: #555;">新密码</label>
+                            <input type="password" class="form-control" id="newPassword" placeholder="请输入新密码（至少6位）" required minlength="6" style="border-radius: 8px; padding: 10px 15px; border: 2px solid #e1e5e9;">
+                            <div style="color: #7f8c8d; font-size: 14px; margin-top: 5px;">密码长度不能少于6位</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label" style="font-weight: 500; color: #555;">确认新密码</label>
+                            <input type="password" class="form-control" id="confirmPassword" placeholder="请再次输入新密码" required style="border-radius: 8px; padding: 10px 15px; border: 2px solid #e1e5e9;">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; border-radius: 8px; padding: 10px 30px; color: white; font-weight: 600;">
+                            <i class="bi bi-key"></i> 修改密码
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- 发件人管理视图 -->
+        <div id="view-sender-manage" class="section-view">
+            <div class="content-wrapper">
+                <h2 class="page-title"><i class="bi bi-envelope"></i> 发件人管理</h2>
+
+                <div class="user-toolbar">
+                    <div class="search-form">
+                        <input type="text" id="searchSenderEmail" placeholder="发件人邮箱">
+                        <select id="searchSenderStatus" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px;">
+                            <option value="">全部状态</option>
+                            <option value="1">有效</option>
+                            <option value="2">无效</option>
+                        </select>
+                        <button class="btn btn-primary" onclick="searchSenders()">搜索</button>
+                        <button class="btn" onclick="resetSenderSearch()">重置</button>
+                    </div>
+                    <button class="btn btn-success" onclick="showSenderCreateModal()">新增发件人</button>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>发件人邮箱</th>
+                                <th>状态</th>
+                                <th>创建时间</th>
+                                <th>修改时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="senderTableBody">
+                            <tr>
+                                <td colspan="6" class="loading">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="pagination" id="senderPagination">
+                        <!-- Pagination will be rendered here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 收件人管理视图 -->
+        <div id="view-receiver-manage" class="section-view">
+            <div class="content-wrapper">
+                <h2 class="page-title"><i class="bi bi-inbox"></i> 收件人管理</h2>
+
+                <div class="user-toolbar">
+                    <div class="search-form">
+                        <input type="text" id="searchReceiverEmail" placeholder="收件人邮箱">
+                        <select id="searchReceiverStatus" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px;">
+                            <option value="">全部状态</option>
+                            <option value="1">可用</option>
+                            <option value="2">不可用</option>
+                        </select>
+                        <button class="btn btn-primary" onclick="searchReceivers()">搜索</button>
+                        <button class="btn" onclick="resetReceiverSearch()">重置</button>
+                    </div>
+                    <button class="btn btn-success" onclick="showReceiverCreateModal()">新增收件人</button>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>收件人邮箱</th>
+                                <th>状态</th>
+                                <th>创建时间</th>
+                                <th>更新时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="receiverTableBody">
+                            <tr>
+                                <td colspan="6" class="loading">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="pagination" id="receiverPagination">
+                        <!-- Pagination will be rendered here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 邮件推送视图 -->
+        <div id="view-mail-push" class="section-view">
+            <div class="content-wrapper">
+                <h2 class="page-title"><i class="bi bi-send"></i> 邮件推送</h2>
+
+                <div class="user-toolbar">
+                    <div class="search-form">
+                        <input type="text" id="searchTaskName" placeholder="任务名称">
+                        <select id="searchTaskStatus" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px;">
+                            <option value="">全部状态</option>
+                            <option value="0">未开始</option>
+                            <option value="1">运行中</option>
+                            <option value="2">已完成</option>
+                            <option value="3">已停止</option>
+                            <option value="4">失败</option>
+                        </select>
+                        <button class="btn btn-primary" onclick="searchTasks()">搜索</button>
+                        <button class="btn" onclick="resetTaskSearch()">重置</button>
+                    </div>
+                    <button class="btn btn-success" onclick="showTaskCreateModal()">新建任务</button>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>任务名称</th>
+                                <th>邮件标题</th>
+                                <th>总邮件数</th>
+                                <th>成功/失败</th>
+                                <th>状态</th>
+                                <th>创建人</th>
+                                <th>创建时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="taskTableBody">
+                            <tr>
+                                <td colspan="9" class="loading">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="pagination" id="taskPagination">
+                        <!-- Pagination will be rendered here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create/Edit Modal -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">新增用户</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="userForm">
+                <input type="hidden" id="userId">
+                <div class="form-group">
+                    <label for="userUserName">用户名 *</label>
+                    <input type="text" id="userUserName" required>
+                </div>
+                <div class="form-group" id="passwordGroup">
+                    <label for="userPassword">密码 *</label>
+                    <input type="password" id="userPassword">
+                </div>
+                <div class="form-group">
+                    <label for="userNickName">昵称</label>
+                    <input type="text" id="userNickName">
+                </div>
+                <div class="form-group">
+                    <label for="userFullName">姓名</label>
+                    <input type="text" id="userFullName">
+                </div>
+                <div class="form-group">
+                    <label for="userMobile">手机号</label>
+                    <input type="text" id="userMobile">
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">邮箱</label>
+                    <input type="email" id="userEmail">
+                </div>
+                <div class="form-group">
+                    <label for="userSex">性别</label>
+                    <select id="userSex">
+                        <option value="">请选择</option>
+                        <option value="0">女</option>
+                        <option value="1">男</option>
+                        <option value="2">未知</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="userBirthday">生日</label>
+                    <input type="date" id="userBirthday">
+                </div>
+                <div class="form-group">
+                    <label for="userRemark">备注</label>
+                    <textarea id="userRemark"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn" onclick="closeModal()">取消</button>
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sender Create/Edit Modal -->
+    <div id="senderModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="senderModalTitle">新增发件人</h2>
+                <span class="close" onclick="closeSenderModal()">&times;</span>
+            </div>
+            <form id="senderForm">
+                <input type="hidden" id="senderId">
+                <div class="form-group">
+                    <label for="senderEmail">发件人邮箱 *</label>
+                    <input type="email" id="senderEmail" required>
+                </div>
+                <div class="form-group" id="senderPasswordGroup">
+                    <label for="senderPassword">邮箱密码</label>
+                    <input type="password" id="senderPassword">
+                </div>
+                <div class="form-group">
+                    <label for="senderAuthCode">授权码</label>
+                    <input type="text" id="senderAuthCode">
+                </div>
+                <div class="form-group">
+                    <label for="senderStatus">状态</label>
+                    <select id="senderStatus">
+                        <option value="1">有效</option>
+                        <option value="2">无效</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn" onclick="closeSenderModal()">取消</button>
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Receiver Create/Edit Modal -->
+    <div id="receiverModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="receiverModalTitle">新增收件人</h2>
+                <span class="close" onclick="closeReceiverModal()">&times;</span>
+            </div>
+            <form id="receiverForm">
+                <input type="hidden" id="receiverId">
+                <div class="form-group">
+                    <label for="receiverEmail">收件人邮箱 *</label>
+                    <input type="email" id="receiverEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="receiverStatus">状态</label>
+                    <select id="receiverStatus">
+                        <option value="1">可用</option>
+                        <option value="2">不可用</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn" onclick="closeReceiverModal()">取消</button>
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Task Create/Edit Modal -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2 id="taskModalTitle">新建推送任务</h2>
+                <span class="close" onclick="closeTaskModal()">&times;</span>
+            </div>
+            <form id="taskForm">
+                <input type="hidden" id="taskId">
+                <div class="form-group">
+                    <label for="taskName">任务名称 *</label>
+                    <input type="text" id="taskName" required placeholder="请输入任务名称">
+                </div>
+                <div class="form-group">
+                    <label for="emailTitle">邮件标题 *</label>
+                    <input type="text" id="emailTitle" required placeholder="请输入邮件标题">
+                </div>
+                <div class="form-group">
+                    <label for="emailContent">邮件内容 *</label>
+                    <textarea id="emailContent" required placeholder="请输入邮件内容" style="min-height: 150px;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>发件人类型</label>
+                    <select id="senderType" onchange="onSenderTypeChange()">
+                        <option value="1">系统内置发件人（使用全部有效发件人）</option>
+                        <option value="2">手动输入</option>
+                    </select>
+                    <div style="color: #7f8c8d; font-size: 14px; margin-top: 5px;">系统内置将使用数据库中所有状态为"有效"的发件人</div>
+                </div>
+                <div class="form-group" id="senderEmailGroup" style="display:none;">
+                    <label for="taskSenderEmail">发件人邮箱</label>
+                    <input type="email" id="taskSenderEmail" placeholder="请输入发件人邮箱">
+                </div>
+                <div class="form-group" id="senderPasswordGroup" style="display:none;">
+                    <label for="taskSenderPassword">密码/授权码</label>
+                    <input type="password" id="taskSenderPassword" placeholder="请输入密码或授权码">
+                </div>
+                <div class="form-group">
+                    <label>收件人类型</label>
+                    <select id="receiverType" onchange="onReceiverTypeChange()">
+                        <option value="1">系统内置收件人（使用全部有效收件人）</option>
+                        <option value="2">手动输入</option>
+                    </select>
+                    <div style="color: #7f8c8d; font-size: 14px; margin-top: 5px;">系统内置将使用数据库中所有状态为"可用"的收件人</div>
+                </div>
+                <div class="form-group" id="receiverEmailsGroup" style="display:none;">
+                    <label for="taskReceiverEmails">收件人邮箱列表</label>
+                    <textarea id="taskReceiverEmails" placeholder="请输入收件人邮箱，多个邮箱用逗号分隔" style="min-height: 100px;"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn" onclick="closeTaskModal()">取消</button>
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Task Detail Modal -->
+    <div id="taskDetailModal" class="modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h2>任务详情 - <span id="detailTaskName"></span></h2>
+                <span class="close" onclick="closeTaskDetailModal()">&times;</span>
+            </div>
+            <div id="taskDetailContent">
+                <div style="margin-bottom: 20px;">
+                    <h4 style="color: #34495e; margin-bottom: 15px;">发送记录</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>发件人</th>
+                                <th>收件人</th>
+                                <th>状态</th>
+                                <th>失败原因</th>
+                                <th>重试次数</th>
+                                <th>发送时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recordTableBody">
+                            <tr>
+                                <td colspan="8" class="loading">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination" id="recordPagination"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- 自定义提示框 -->
+    <div id="customAlertOverlay" class="custom-alert-overlay">
+        <div class="custom-alert-box">
+            <div id="customAlertMessage" class="custom-alert-message"></div>
+            <div class="custom-alert-buttons">
+                <button id="customAlertCancelBtn" class="custom-alert-btn custom-alert-btn-cancel" style="display: none;">取消</button>
+                <button id="customAlertOkBtn" class="custom-alert-btn custom-alert-btn-ok">确定</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 自定义提示框函数 - 无动画、无延迟
+        function showAlert(message, callback) {
+            const overlay = document.getElementById('customAlertOverlay');
+            const messageEl = document.getElementById('customAlertMessage');
+            const okBtn = document.getElementById('customAlertOkBtn');
+            const cancelBtn = document.getElementById('customAlertCancelBtn');
+            
+            messageEl.textContent = message;
+            cancelBtn.style.display = 'none';
+            overlay.style.display = 'block';
+            
+            function closeAlert() {
+                overlay.style.display = 'none';
+                if (callback) callback();
+            }
+            
+            okBtn.onclick = closeAlert;
+        }
+        
+        // 自定义确认框函数 - 无动画、无延迟
+        function showConfirm(message, callback) {
+            const overlay = document.getElementById('customAlertOverlay');
+            const messageEl = document.getElementById('customAlertMessage');
+            const okBtn = document.getElementById('customAlertOkBtn');
+            const cancelBtn = document.getElementById('customAlertCancelBtn');
+            
+            messageEl.textContent = message;
+            cancelBtn.style.display = 'inline-block';
+            overlay.style.display = 'block';
+            
+            function closeAlert(result) {
+                overlay.style.display = 'none';
+                if (callback) callback(result);
+            }
+            
+            okBtn.onclick = function() {
+                closeAlert(true);
+            };
+            
+            cancelBtn.onclick = function() {
+                closeAlert(false);
+            };
+        }
+        
+        // 重写原生alert和confirm
+        window.alert = showAlert;
+        window.confirm = showConfirm;
+        // 页面加载时检查登录状态
+        window.addEventListener('load', function() {
+            checkLoginAndLoadUser();
+        });
+
+        // 获取Token
+        function getToken() {
+            const userInfo = localStorage.getItem('userInfo');
+            if (userInfo) {
+                try {
+                    const user = JSON.parse(userInfo);
+                    return user.token || null;
+                } catch (e) {
+                    console.error('解析用户信息失败:', e);
+                }
+            }
+            return null;
+        }
+
+        // 检查登录并加载用户信息
+        function checkLoginAndLoadUser() {
+            const token = getToken();
+            if (!token) {
+                window.location.href = '/login.html';
+                return;
+            }
+            
+            // 直接调用需要认证的接口，如果未登录会被拦截器拦截
+            loadUserInfo();
+        }
+
+        // 加载用户信息
+        function loadUserInfo() {
+            const token = getToken();
+            if (!token) {
+                window.location.href = '/login.html';
+                return;
+            }
+            
+            fetch('/auth/currentUser', {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.code === 0 && data.data) {
+                        const nickName = data.data.nickName || data.data.username;
+                        document.getElementById('userName').innerHTML = 
+                            '<i class="bi bi-person-circle"></i> ' + nickName;
+                    }
+                })
+                .catch(error => {
+                    console.error('加载用户信息失败:', error);
+                });
+        }
+
+        // 退出登录
+        function logout() {
+            if (!confirm('确定要退出登录吗？')) {
+                return;
+            }
+            
+            fetch('/auth/logout', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 0) {
+                    // 清除本地存储
+                    localStorage.removeItem('userInfo');
+                    // 跳转到登录页
+                    window.location.href = '/login.html';
+                } else {
+                    alert('退出失败，请重试');
+                }
+            })
+            .catch(error => {
+                console.error('退出登录失败:', error);
+                alert('网络错误，请重试');
+            });
+        }
+
+        // 切换到指定视图
+        function switchToSection(sectionName) {
+            // 隐藏所有视图
+            document.querySelectorAll('.section-view').forEach(view => {
+                view.classList.remove('active');
+            });
+            
+            // 移除所有菜单项的active类
+            document.querySelectorAll('.sidebar-menu a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // 显示目标视图
+            const targetView = document.getElementById('view-' + sectionName);
+            if (targetView) {
+                targetView.classList.add('active');
+            }
+            
+            // 激活对应菜单项
+            const menuMap = {
+                'home': 'a[href="/index.html"]',
+                'user-manage': '#menu-user-manage',
+                'settings': '#menu-settings',
+                'sender-manage': 'a[href="#sender-manage"]',
+                'receiver-manage': 'a[href="#receiver-manage"]'
+            };
+            
+            const menuSelector = menuMap[sectionName];
+            if (menuSelector) {
+                const menuItem = document.querySelector(menuSelector);
+                if (menuItem) {
+                    menuItem.classList.add('active');
+                }
+            }
+            
+            // 如果是用户管理视图，加载数据
+            if (sectionName === 'user-manage') {
+                loadUsers();
+            }
+            
+            // 如果是个人设置视图，加载用户信息
+            if (sectionName === 'settings') {
+                loadSettingsUserInfo();
+            }
+            
+            // 如果是发件人管理视图，加载数据
+            if (sectionName === 'sender-manage') {
+                loadSenders();
+            }
+            
+            // 如果是收件人管理视图，加载数据
+            if (sectionName === 'receiver-manage') {
+                loadReceivers();
+            }
+            
+            // 如果是邮件推送视图，加载数据
+            if (sectionName === 'mail-push') {
+                loadTasks();
+            }
+        }
+
+        // 菜单点击事件
+        document.querySelectorAll('.sidebar-menu a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                
+                // 处理锚点链接
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const sectionName = href.substring(1);
+                    switchToSection(sectionName);
+                }
+                // 其他链接不做处理，让浏览器正常跳转
+            });
+        });
+
+        // ==================== 用户管理功能 ====================
+        let currentPage = 1;
+        let pageSize = 10;
+        let totalPages = 0;
+
+        // Load users
+        async function loadUsers() {
+            const searchUserName = document.getElementById('searchUserName').value;
+            const searchMobile = document.getElementById('searchMobile').value;
+            const searchEmail = document.getElementById('searchEmail').value;
+            const searchNickName = document.getElementById('searchNickName').value;
+
+            const requestBody = {
+                pageNum: currentPage,
+                pageSize: pageSize
+            };
+
+            if (searchUserName) requestBody.userName = searchUserName;
+            if (searchMobile) requestBody.mobile = searchMobile;
+            if (searchEmail) requestBody.email = searchEmail;
+            if (searchNickName) requestBody.nickName = searchNickName;
+
+            try {
+                const response = await fetch('/user/page', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + getToken()
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 0) {
+                    renderTable(result.data.records);
+                    totalPages = result.data.pages;
+                    renderPagination();
+                } else {
+                    alert('加载失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('加载失败，请检查网络连接');
+            }
+        }
+
+        // Render table
+        function renderTable(users) {
+            const tbody = document.getElementById('userTableBody');
+            
+            if (!users || users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" class="empty">暂无数据</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = users.map(user => `
+                <tr>
+                    <td>${user.id}</td>
+                    <td>${user.userName || '-'}</td>
+                    <td>${user.nickName || '-'}</td>
+                    <td>${user.fullName || '-'}</td>
+                    <td>${user.mobile || '-'}</td>
+                    <td>${user.email || '-'}</td>
+                    <td>${getSexText(user.sex)}</td>
+                    <td>${user.remark || '-'}</td>
+                    <td>${formatDate(user.createTime)}</td>
+                    <td>
+                        <button class="btn btn-edit" onclick="editUser(${user.id})">编辑</button>
+                        <button class="btn btn-danger" onclick="deleteUser(${user.id})">删除</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Get sex text
+        function getSexText(sex) {
+            if (sex === 0) return '女';
+            if (sex === 1) return '男';
+            if (sex === 2) return '未知';
+            return '-';
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            const date = new Date(dateString);
+            return date.toLocaleString('zh-CN');
+        }
+
+        // Render pagination
+        function renderPagination() {
+            const pagination = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let html = `
+                <button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>上一页</button>
+                <span>第 ${currentPage} / ${totalPages} 页</span>
+                <button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>下一页</button>
+            `;
+            
+            pagination.innerHTML = html;
+        }
+
+        // Go to page
+        function goToPage(page) {
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            loadUsers();
+        }
+
+        // Search users
+        function searchUsers() {
+            currentPage = 1;
+            loadUsers();
+        }
+
+        // Reset search
+        function resetSearch() {
+            document.getElementById('searchUserName').value = '';
+            document.getElementById('searchMobile').value = '';
+            document.getElementById('searchEmail').value = '';
+            document.getElementById('searchNickName').value = '';
+            currentPage = 1;
+            loadUsers();
+        }
+
+        // Show create modal
+        function showCreateModal() {
+            document.getElementById('modalTitle').textContent = '新增用户';
+            document.getElementById('userForm').reset();
+            document.getElementById('userId').value = '';
+            document.getElementById('passwordGroup').style.display = 'block';
+            document.getElementById('userPassword').required = true;
+            document.getElementById('userUserName').readOnly = false;
+            document.getElementById('userModal').style.display = 'block';
+        }
+
+        // Edit user
+        async function editUser(id) {
+            try {
+                const response = await fetch(`/user/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + getToken()
+                    }
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 0) {
+                    const user = result.data;
+                    document.getElementById('modalTitle').textContent = '编辑用户';
+                    document.getElementById('userId').value = user.id;
+                    document.getElementById('userUserName').value = user.userName || '';
+                    document.getElementById('userUserName').readOnly = true;
+                    document.getElementById('passwordGroup').style.display = 'none';
+                    document.getElementById('userPassword').required = false;
+                    document.getElementById('userNickName').value = user.nickName || '';
+                    document.getElementById('userFullName').value = user.fullName || '';
+                    document.getElementById('userMobile').value = user.mobile || '';
+                    document.getElementById('userEmail').value = user.email || '';
+                    document.getElementById('userSex').value = user.sex !== null ? user.sex : '';
+                    document.getElementById('userBirthday').value = user.birthday ? user.birthday.split('T')[0] : '';
+                    document.getElementById('userRemark').value = user.remark || '';
+                    document.getElementById('userModal').style.display = 'block';
+                } else {
+                    alert('获取用户信息失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('获取用户信息失败');
+            }
+        }
+
+        // Delete user
+        async function deleteUser(id) {
+            if (!confirm('确定要删除该用户吗？')) return;
+
+            try {
+                const response = await fetch(`/user/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + getToken()
+                    }
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 0) {
+                    alert('删除成功');
+                    loadUsers();
+                } else {
+                    alert('删除失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('删除失败');
+            }
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('userModal').style.display = 'none';
+        }
+
+        // Handle form submit
+        document.getElementById('userForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const userId = document.getElementById('userId').value;
+            const isEdit = !!userId;
+
+            const data = {
+                userName: document.getElementById('userUserName').value,
+                nickName: document.getElementById('userNickName').value,
+                fullName: document.getElementById('userFullName').value,
+                mobile: document.getElementById('userMobile').value,
+                email: document.getElementById('userEmail').value,
+                sex: document.getElementById('userSex').value ? parseInt(document.getElementById('userSex').value) : null,
+                birthday: document.getElementById('userBirthday').value || null,
+                remark: document.getElementById('userRemark').value
+            };
+
+            if (!isEdit) {
+                data.password = document.getElementById('userPassword').value;
+            } else {
+                data.id = parseInt(userId);
+            }
+
+            try {
+                const url = isEdit ? '/user/update' : '/user/create';
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + getToken()
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 0) {
+                    alert(isEdit ? '更新成功' : '创建成功');
+                    closeModal();
+                    loadUsers();
+                } else {
+                    alert((isEdit ? '更新' : '创建') + '失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert((isEdit ? '更新' : '创建') + '失败');
+            }
+        });
+
+        // ==================== 个人设置功能 ====================
+        
+        // 加载个人设置用户信息
+        function loadSettingsUserInfo() {
+            const token = getToken();
+            if (!token) {
+                window.location.href = '/login.html';
+                return;
+            }
+            
+            fetch('/auth/currentUser', {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.code === 0 && data.data) {
+                        const user = data.data;
+                        document.getElementById('settingsUsername').value = user.username || '';
+                        document.getElementById('settingsNickName').value = user.nickName || '';
+                        document.getElementById('settingsEmail').value = user.email || '';
+                    }
+                })
+                .catch(error => {
+                    console.error('加载用户信息失败:', error);
+                });
+        }
+
+        // 显示提示信息
+        function showSettingsAlert(type, message) {
+            const successAlert = document.getElementById('settingsSuccessAlert');
+            const errorAlert = document.getElementById('settingsErrorAlert');
+            
+            successAlert.style.display = 'none';
+            errorAlert.style.display = 'none';
+            
+            if (type === 'success') {
+                successAlert.textContent = message;
+                successAlert.style.display = 'block';
+            } else {
+                errorAlert.textContent = message;
+                errorAlert.style.display = 'block';
+            }
+        }
+
+        // 更新个人信息
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nickName = document.getElementById('settingsNickName').value.trim();
+            const email = document.getElementById('settingsEmail').value.trim();
+            
+            if (!nickName || !email) {
+                showSettingsAlert('error', '请填写所有必填字段');
+                return;
+            }
+
+            const token = getToken();
+            if (!token) {
+                showSettingsAlert('error', '请先登录');
+                return;
+            }
+
+            fetch('/auth/profile', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({
+                    nickName: nickName,
+                    email: email
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 0) {
+                    showSettingsAlert('success', '个人信息更新成功');
+                    loadSettingsUserInfo();
+                } else {
+                    showSettingsAlert('error', data.message || '更新失败');
+                }
+            })
+            .catch(error => {
+                console.error('更新失败:', error);
+                showSettingsAlert('error', '网络错误，请重试');
+            });
+        });
+
+        // 修改密码
+        document.getElementById('passwordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const oldPassword = document.getElementById('oldPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!oldPassword || !newPassword || !confirmPassword) {
+                showSettingsAlert('error', '请填写所有密码字段');
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                showSettingsAlert('error', '两次输入的新密码不一致');
+                return;
+            }
+
+            if (newPassword.length < 6) {
+                showSettingsAlert('error', '新密码长度不能少于6位');
+                return;
+            }
+
+            const token = getToken();
+            if (!token) {
+                showSettingsAlert('error', '请先登录');
+                return;
+            }
+
+            fetch('/auth/password', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({
+                    oldPassword: oldPassword,
+                    newPassword: newPassword,
+                    confirmPassword: confirmPassword
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 0) {
+                    showSettingsAlert('success', '密码修改成功，请使用新密码重新登录');
+                    document.getElementById('passwordForm').reset();
+                    
+                    localStorage.removeItem('userInfo');
+                    window.location.href = '/login.html';
+                } else {
+                    showSettingsAlert('error', data.message || '修改失败');
+                }
+            })
+            .catch(error => {
+                console.error('修改失败:', error);
+                showSettingsAlert('error', '网络错误，请重试');
+            });
+        });
+
+        // ==================== 发件人管理功能 ====================
+        let senderCurrentPage = 1;
+        let senderPageSize = 10;
+        let senderTotalPages = 0;
+
+        // 加载发件人列表
+        async function loadSenders() {
+            const searchEmail = document.getElementById('searchSenderEmail').value;
+            const searchStatus = document.getElementById('searchSenderStatus').value;
+
+            const requestBody = {
+                pageNum: senderCurrentPage,
+                pageSize: senderPageSize
+            };
+
+            if (searchEmail) requestBody.senderEmail = searchEmail;
+            if (searchStatus) requestBody.status = parseInt(searchStatus);
+
+            try {
+                const response = await fetch('/sender/page', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + getToken()
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 0) {
+                    renderSenderTable(result.data.records);
+                    senderTotalPages = result.data.pages;
+                    renderSenderPagination();
+                } else {
+                    alert('加载失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('加载失败，请检查网络连接');
+            }
+        }
+
+        // 渲染发件人表格
+        function renderSenderTable(senders) {
+            const tbody = document.getElementById('senderTableBody');
+            
+            if (!senders || senders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty">暂无数据</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = senders.map(sender => `
+                <tr>
+                    <td>${sender.id}</td>
+                    <td>${sender.senderEmail || '-'}</td>
+                    <td>${sender.status === 1 ? '<span style="color: #52c41a;">有效</span>' : '<span style="color: #ff4d4f;">无效</span>'}</td>
+                    <td>${formatDateTime(sender.createTime)}</td>
+                    <td>${formatDateTime(sender.modifyTime)}</td>
+                    <td>
+                        <button class="btn btn-edit" onclick="editSender(${sender.id})">编辑</button>
+                        <button class="btn btn-danger" onclick="deleteSender(${sender.id})">删除</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // 格式化日期时间
+        function formatDateTime(dateString) {
+            if (!dateString) return '-';
+            const date = new Date(dateString);
+            return date.toLocaleString('zh-CN');
+        }
+
+        // 渲染分页
+        function renderSenderPagination() {
+            const pagination = document.getElementById('senderPagination');
+            
+            if (senderTotalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let html = `
+                <button onclick="goToSenderPage(${senderCurrentPage - 1})" ${senderCurrentPage === 1 ? 'disabled' : ''}>上一页</button>
+                <span>第 ${senderCurrentPage} / ${senderTotalPages} 页</span>
+                <button onclick="goToSenderPage(${senderCurrentPage + 1})" ${senderCurrentPage === senderTotalPages ? 'disabled' : ''}>下一页</button>
+            `;
+            
+            pagination.innerHTML = html;
+        }
+
+        // 跳转到指定页
+        function goToSenderPage(page) {
+            if (page < 1 || page > senderTotalPages) return;
+            senderCurrentPage = page;
+            loadSenders();
+        }
+
+        // 搜索发件人
+        function searchSenders() {
+            senderCurrentPage = 1;
+            loadSenders();
+        }
+
+        // 重置搜索
+        function resetSenderSearch() {
+            document.getElementById('searchSenderEmail').value = '';
+            document.getElementById('searchSenderStatus').value = '';
+            senderCurrentPage = 1;
+            loadSenders();
+        }
+
+        // 显示新增模态框
+        function showSenderCreateModal() {
+            document.getElementById('senderModalTitle').textContent = '新增发件人';
+            document.getElementById('senderForm').reset();
+            document.getElementById('senderId').value = '';
+            document.getElementById('senderPasswordGroup').style.display = 'block';
+            document.getElementById('senderEmail').readOnly = false;
+            document.getElementById('senderModal').style.display = 'block';
+        }
+
+        // 编辑发件人
+        async function editSender(id) {
+            try {
+                const response = await fetch(`/sender/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + getToken()
+                    }
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 0) {
+                    const sender = result.data;
+                    document.getElementById('senderModalTitle').textContent = '编辑发件人';
+                    document.getElementById('senderId').value = sender.id;
+                    document.getElementById('senderEmail').value = sender.senderEmail || '';
+                    document.getElementById('senderEmail').readOnly = false;
+                    document.getElementById('senderPasswordGroup').style.display = 'none';
+                    document.getElementById('senderAuthCode').value = sender.authCode || '';
+                    document.getElementById('senderStatus').value = sender.status !== null ? sender.status : 1;
+                    document.getElementById('senderModal').style.display = 'block';
+                } else {
+                    alert('获取发件人信息失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('获取发件人信息失败');
+            }
+        }
+
+        // 删除发件人
+        async function deleteSender(id) {
+            if (!confirm('确定要删除该发件人吗？')) return;
+
+            try {
+                const response = await fetch(`/sender/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + getToken()
+                    }
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 0) {
+                    alert('删除成功');
+                    loadSenders();
+                } else {
+                    alert('删除失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('删除失败');
+            }
+        }
+
+        // 关闭模态框
+        function closeSenderModal() {
+            document.getElementById('senderModal').style.display = 'none';
+        }
+
+        // 处理表单提交
+        document.getElementById('senderForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const senderId = document.getElementById('senderId').value;
+            const isEdit = !!senderId;
+
+            const data = {
+                senderEmail: document.getElementById('senderEmail').value,
+                authCode: document.getElementById('senderAuthCode').value,
+                status: parseInt(document.getElementById('senderStatus').value)
+            };
+
+            if (!isEdit) {
+                data.emailPassword = document.getElementById('senderPassword').value;
+            } else {
+                data.id = parseInt(senderId);
+            }
+
+            try {
+                const url = isEdit ? '/sender/update' : '/sender/create';
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + getToken()
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 0) {
+                    alert(isEdit ? '更新成功' : '创建成功');
+                    closeSenderModal();
+                    loadSenders();
+                } else {
+                    alert((isEdit ? '更新' : '创建') + '失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert((isEdit ? '更新' : '创建') + '失败');
+            }
+        });
+
+        // ==================== 收件人管理功能 ====================
+        let receiverCurrentPage = 1;
+        let receiverPageSize = 10;
+        let receiverTotalPages = 0;
+
+        // 加载收件人列表
+        async function loadReceivers() {
+            const searchEmail = document.getElementById('searchReceiverEmail').value;
+            const searchStatus = document.getElementById('searchReceiverStatus').value;
+
+            const requestBody = {
+                pageNum: receiverCurrentPage,
+                pageSize: receiverPageSize
+            };
+
+            if (searchEmail) requestBody.receiver = searchEmail;
+            if (searchStatus) requestBody.status = parseInt(searchStatus);
+
+            try {
+                const response = await fetch('/receiver/page', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + getToken()
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 0) {
+                    renderReceiverTable(result.data.records);
+                    receiverTotalPages = result.data.pages;
+                    renderReceiverPagination();
+                } else {
+                    alert('加载失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('加载失败，请检查网络连接');
+            }
+        }
+
+        // 渲染收件人表格
+        function renderReceiverTable(receivers) {
+            const tbody = document.getElementById('receiverTableBody');
+            
+            if (!receivers || receivers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty">暂无数据</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = receivers.map(receiver => `
+                <tr>
+                    <td>${receiver.id}</td>
+                    <td>${receiver.receiver || '-'}</td>
+                    <td>${receiver.status === 1 ? '<span style="color: #52c41a;">可用</span>' : '<span style="color: #ff4d4f;">不可用</span>'}</td>
+                    <td>${formatDateTime(receiver.createTime)}</td>
+                    <td>${formatDateTime(receiver.updateTime)}</td>
+                    <td>
+                        <button class="btn btn-edit" onclick="editReceiver(${receiver.id})">编辑</button>
+                        <button class="btn btn-danger" onclick="deleteReceiver(${receiver.id})">删除</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // 渲染分页
+        function renderReceiverPagination() {
+            const pagination = document.getElementById('receiverPagination');
+            
+            if (receiverTotalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let html = `
+                <button onclick="goToReceiverPage(${receiverCurrentPage - 1})" ${receiverCurrentPage === 1 ? 'disabled' : ''}>上一页</button>
+                <span>第 ${receiverCurrentPage} / ${receiverTotalPages} 页</span>
+                <button onclick="goToReceiverPage(${receiverCurrentPage + 1})" ${receiverCurrentPage === receiverTotalPages ? 'disabled' : ''}>下一页</button>
+            `;
+            
+            pagination.innerHTML = html;
+        }
+
+        // 跳转到指定页
+        function goToReceiverPage(page) {
+            if (page < 1 || page > receiverTotalPages) return;
+            receiverCurrentPage = page;
+            loadReceivers();
+        }
+
+        // 搜索收件人
+        function searchReceivers() {
+            receiverCurrentPage = 1;
+            loadReceivers();
+        }
+
+        // 重置搜索
+        function resetReceiverSearch() {
+            document.getElementById('searchReceiverEmail').value = '';
+            document.getElementById('searchReceiverStatus').value = '';
+            receiverCurrentPage = 1;
+            loadReceivers();
+        }
+
+        // 显示新增模态框
+        function showReceiverCreateModal() {
+            document.getElementById('receiverModalTitle').textContent = '新增收件人';
+            document.getElementById('receiverForm').reset();
+            document.getElementById('receiverId').value = '';
+            document.getElementById('receiverEmail').readOnly = false;
+            document.getElementById('receiverModal').style.display = 'block';
+        }
+
+        // 编辑收件人
+        async function editReceiver(id) {
+            try {
+                const response = await fetch(`/receiver/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + getToken()
+                    }
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 0) {
+                    const receiver = result.data;
+                    document.getElementById('receiverModalTitle').textContent = '编辑收件人';
+                    document.getElementById('receiverId').value = receiver.id;
+                    document.getElementById('receiverEmail').value = receiver.receiver || '';
+                    document.getElementById('receiverEmail').readOnly = false;
+                    document.getElementById('receiverStatus').value = receiver.status !== null ? receiver.status : 1;
+                    document.getElementById('receiverModal').style.display = 'block';
+                } else {
+                    alert('获取收件人信息失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('获取收件人信息失败');
+            }
+        }
+
+        // 删除收件人
+        async function deleteReceiver(id) {
+            if (!confirm('确定要删除该收件人吗？')) return;
+
+            try {
+                const response = await fetch(`/receiver/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + getToken()
+                    }
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 0) {
+                    alert('删除成功');
+                    loadReceivers();
+                } else {
+                    alert('删除失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('删除失败');
+            }
+        }
+
+        // 关闭模态框
+        function closeReceiverModal() {
+            document.getElementById('receiverModal').style.display = 'none';
+        }
+
+        // 处理表单提交
+        document.getElementById('receiverForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const receiverId = document.getElementById('receiverId').value;
+            const isEdit = !!receiverId;
+
+            const data = {
+                receiver: document.getElementById('receiverEmail').value,
+                status: parseInt(document.getElementById('receiverStatus').value)
+            };
+
+            if (isEdit) {
+                data.id = parseInt(receiverId);
+            }
+
+            try {
+                const url = isEdit ? '/receiver/update' : '/receiver/create';
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + getToken()
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 0) {
+                    alert(isEdit ? '更新成功' : '创建成功');
+                    closeReceiverModal();
+                    loadReceivers();
+                } else {
+                    alert((isEdit ? '更新' : '创建') + '失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert((isEdit ? '更新' : '创建') + '失败');
+            }
+        });
+
+        // ==================== 邮件推送功能 ====================
+        let taskCurrentPage = 1;
+        let taskPageSize = 10;
+        let taskTotalPages = 0;
+        let currentTaskId = null;
+        let recordCurrentPage = 1;
+        let recordPageSize = 10;
+
+        // 加载任务列表
+        async function loadTasks() {
+            const searchName = document.getElementById('searchTaskName').value;
+            const searchStatus = document.getElementById('searchTaskStatus').value;
+
+            try {
+                let url = `/api/push-task/page?pageNum=${taskCurrentPage}&pageSize=${taskPageSize}`;
+                if (searchName) url += `&taskName=${encodeURIComponent(searchName)}`;
+                if (searchStatus) url += `&status=${searchStatus}`;
+
+                const response = await fetch(url, {
+                    headers: {
+                        'Authorization': 'Bearer ' + getToken()
+                    }
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 0) {
+                    renderTaskTable(result.data.records);
+                    taskTotalPages = result.data.pages;
+                    renderTaskPagination();
+                } else {
+                    alert('加载失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('加载失败，请检查网络连接');
+            }
+        }
+
+        // 渲染任务表格
+        function renderTaskTable(tasks) {
+            const tbody = document.getElementById('taskTableBody');
+            
+            if (!tasks || tasks.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" class="empty">暂无数据</td></tr>';
+                return;
+            }
+
+            const statusMap = {
+                0: '<span style="color: #999;">未开始</span>',
+                1: '<span style="color: #1890ff;">运行中</span>',
+                2: '<span style="color: #52c41a;">已完成</span>',
+                3: '<span style="color: #faad14;">已停止</span>',
+                4: '<span style="color: #ff4d4f;">失败</span>'
+            };
+
+            tbody.innerHTML = tasks.map(task => `
+                <tr>
+                    <td>${task.id}</td>
+                    <td>${task.taskName || '-'}</td>
+                    <td>${task.emailTitle || '-'}</td>
+                    <td>${task.totalEmails || 0}</td>
+                    <td><span style="color: #52c41a;">${task.successCount || 0}</span> / <span style="color: #ff4d4f;">${task.failCount || 0}</span></td>
+                    <td>${statusMap[task.status] || '-'}</td>
+                    <td>${task.createUserName || '-'}</td>
+                    <td>${formatDateTime(task.createTime)}</td>
+                    <td>
+                        ${task.status === 0 || task.status === 3 ? `<button class="btn btn-success" onclick="startTask(${task.id})" style="margin-right: 5px; padding: 4px 8px; font-size: 12px;">启动</button>` : ''}
+                        ${task.status === 1 ? `<button class="btn btn-danger" onclick="stopTask(${task.id})" style="margin-right: 5px; padding: 4px 8px; font-size: 12px;">停止</button>` : ''}
+                        <button class="btn btn-edit" onclick="viewTaskDetail(${task.id})" style="margin-right: 5px; padding: 4px 8px; font-size: 12px;">详情</button>
+                        <button class="btn btn-edit" onclick="editTask(${task.id})" style="margin-right: 5px; padding: 4px 8px; font-size: 12px;">编辑</button>
+                        <button class="btn btn-danger" onclick="deleteTask(${task.id})" style="padding: 4px 8px; font-size: 12px;">删除</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // 渲染分页
+        function renderTaskPagination() {
+            const pagination = document.getElementById('taskPagination');
+            
+            if (taskTotalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let html = `
+                <button onclick="goToTaskPage(${taskCurrentPage - 1})" ${taskCurrentPage === 1 ? 'disabled' : ''}>上一页</button>
+                <span>第 ${taskCurrentPage} / ${taskTotalPages} 页</span>
+                <button onclick="goToTaskPage(${taskCurrentPage + 1})" ${taskCurrentPage === taskTotalPages ? 'disabled' : ''}>下一页</button>
+            `;
+            
+            pagination.innerHTML = html;
+        }
+
+        // 跳转到指定页
+        function goToTaskPage(page) {
+            if (page < 1 || page > taskTotalPages) return;
+            taskCurrentPage = page;
+            loadTasks();
+        }
+
+        // 搜索任务
+        function searchTasks() {
+            taskCurrentPage = 1;
+            loadTasks();
+        }
+
+        // 重置搜索
+        function resetTaskSearch() {
+            document.getElementById('searchTaskName').value = '';
+            document.getElementById('searchTaskStatus').value = '';
+            taskCurrentPage = 1;
+            loadTasks();
+        }
+
+        // 显示新建任务模态框
+        async function showTaskCreateModal() {
+            document.getElementById('taskModalTitle').textContent = '新建推送任务';
+            document.getElementById('taskForm').reset();
+            document.getElementById('taskId').value = '';
+            document.getElementById('senderType').value = '1';
+            document.getElementById('receiverType').value = '1';
+            onSenderTypeChange();
+            onReceiverTypeChange();
+            
+            document.getElementById('taskModal').style.display = 'block';
+        }
+
+        // 编辑任务
+        async function editTask(id) {
+            try {
+                const response = await fetch(`/api/push-task/${id}`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + getToken()
+                    }
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 0) {
+                    const task = result.data;
+                    document.getElementById('taskModalTitle').textContent = '编辑推送任务';
+                    document.getElementById('taskId').value = task.id;
+                    document.getElementById('taskName').value = task.taskName || '';
+                    document.getElementById('emailTitle').value = task.emailTitle || '';
+                    document.getElementById('emailContent').value = task.emailContent || '';
+                    document.getElementById('senderType').value = task.senderType || 1;
+                    document.getElementById('receiverType').value = task.receiverType || 1;
+                    
+                    onSenderTypeChange();
+                    onReceiverTypeChange();
+                    
+                    if (task.senderType === 2) {
+                        document.getElementById('taskSenderEmail').value = task.senderEmail || '';
+                        document.getElementById('taskSenderPassword').value = task.senderPassword || '';
+                    }
+                    
+                    if (task.receiverType === 2) {
+                        document.getElementById('taskReceiverEmails').value = task.receiverEmails || '';
+                    }
+                    
+                    document.getElementById('taskModal').style.display = 'block';
+                } else {
+                    alert('获取任务信息失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('获取任务信息失败');
+            }
+        }
+
+        // 删除任务
+        async function deleteTask(id) {
+            if (!confirm('确定要删除该任务吗？')) return;
+
+            try {
+                const response = await fetch(`/api/push-task/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + getToken()
+                    }
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 0) {
+                    alert('删除成功');
+                    loadTasks();
+                } else {
+                    alert('删除失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('删除失败');
+            }
+        }
+
+        // 启动任务
+        async function startTask(id) {
+            if (!confirm('确定要启动该任务吗？')) return;
+
+            try {
+                const response = await fetch(`/api/push-task/${id}/start`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + getToken()
+                    }
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 0) {
+                    alert('任务已启动');
+                    loadTasks();
+                } else {
+                    alert('启动失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('启动失败');
+            }
+        }
+
+        // 停止任务
+        async function stopTask(id) {
+            if (!confirm('确定要停止该任务吗？')) return;
+
+            try {
+                const response = await fetch(`/api/push-task/${id}/stop`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + getToken()
+                    }
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 0) {
+                    alert('任务已停止');
+                    loadTasks();
+                } else {
+                    alert('停止失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('停止失败');
+            }
+        }
+
+        // 查看任务详情
+        async function viewTaskDetail(taskId) {
+            currentTaskId = taskId;
+            recordCurrentPage = 1;
+            
+            try {
+                const response = await fetch(`/api/push-task/${taskId}`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + getToken()
+                    }
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 0) {
+                    document.getElementById('detailTaskName').textContent = result.data.taskName;
+                    document.getElementById('taskDetailModal').style.display = 'block';
+                    loadSendRecords();
+                } else {
+                    alert('获取任务信息失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('获取任务信息失败');
+            }
+        }
+
+        // 加载发送记录
+        async function loadSendRecords() {
+            try {
+                const response = await fetch(`/api/send-record/page?pageNum=${recordCurrentPage}&pageSize=${recordPageSize}&taskId=${currentTaskId}`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + getToken()
+                    }
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 0) {
+                    renderRecordTable(result.data.records);
+                    renderRecordPagination(result.data.pages);
+                } else {
+                    alert('加载失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('加载失败');
+            }
+        }
+
+        // 渲染记录表格
+        function renderRecordTable(records) {
+            const tbody = document.getElementById('recordTableBody');
+            
+            if (!records || records.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="empty">暂无数据</td></tr>';
+                return;
+            }
+
+            const statusMap = {
+                0: '<span style="color: #999;">待发送</span>',
+                1: '<span style="color: #52c41a;">成功</span>',
+                2: '<span style="color: #ff4d4f;">失败</span>'
+            };
+
+            tbody.innerHTML = records.map(record => `
+                <tr>
+                    <td>${record.id}</td>
+                    <td>${record.senderEmail || '-'}</td>
+                    <td>${record.receiverEmail || '-'}</td>
+                    <td>${statusMap[record.sendStatus] || '-'}</td>
+                    <td>${record.failReason || '-'}</td>
+                    <td>${record.retryCount || 0}</td>
+                    <td>${formatDateTime(record.sendTime)}</td>
+                    <td>
+                        ${record.sendStatus === 2 ? `<button class="btn btn-success" onclick="resendEmail(${record.id})" style="padding: 4px 8px; font-size: 12px;">重发</button>` : '-'}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // 渲染记录分页
+        function renderRecordPagination(totalPages) {
+            const pagination = document.getElementById('recordPagination');
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let html = `
+                <button onclick="goToRecordPage(${recordCurrentPage - 1})" ${recordCurrentPage === 1 ? 'disabled' : ''}>上一页</button>
+                <span>第 ${recordCurrentPage} / ${totalPages} 页</span>
+                <button onclick="goToRecordPage(${recordCurrentPage + 1})" ${recordCurrentPage === totalPages ? 'disabled' : ''}>下一页</button>
+            `;
+            
+            pagination.innerHTML = html;
+        }
+
+        // 跳转到记录指定页
+        function goToRecordPage(page) {
+            if (page < 1) return;
+            recordCurrentPage = page;
+            loadSendRecords();
+        }
+
+        // 重新发送邮件
+        async function resendEmail(recordId) {
+            if (!confirm('确定要重新发送该邮件吗？')) return;
+
+            try {
+                const response = await fetch(`/api/send-record/${recordId}/resend`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + getToken()
+                    }
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 0) {
+                    alert('重发成功');
+                    loadSendRecords();
+                } else {
+                    alert('重发失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('重发失败');
+            }
+        }
+
+        // 关闭任务模态框
+        function closeTaskModal() {
+            document.getElementById('taskModal').style.display = 'none';
+        }
+
+        // 关闭任务详情模态框
+        function closeTaskDetailModal() {
+            document.getElementById('taskDetailModal').style.display = 'none';
+        }
+
+        // 发件人类型变化
+        function onSenderTypeChange() {
+            const senderType = document.getElementById('senderType').value;
+            if (senderType === '1') {
+                // 系统内置：隐藏手动输入框
+                document.getElementById('senderEmailGroup').style.display = 'none';
+                document.getElementById('senderPasswordGroup').style.display = 'none';
+            } else {
+                // 手动输入：显示手动输入框
+                document.getElementById('senderEmailGroup').style.display = 'block';
+                document.getElementById('senderPasswordGroup').style.display = 'block';
+            }
+        }
+
+        // 收件人类型变化
+        function onReceiverTypeChange() {
+            const receiverType = document.getElementById('receiverType').value;
+            if (receiverType === '1') {
+                // 系统内置：隐藏手动输入框
+                document.getElementById('receiverEmailsGroup').style.display = 'none';
+            } else {
+                // 手动输入：显示手动输入框
+                document.getElementById('receiverEmailsGroup').style.display = 'block';
+            }
+        }
+
+        // 处理任务表单提交
+        document.getElementById('taskForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const taskId = document.getElementById('taskId').value;
+            const isEdit = !!taskId;
+
+            const senderType = parseInt(document.getElementById('senderType').value);
+            const receiverType = parseInt(document.getElementById('receiverType').value);
+
+            const data = {
+                taskName: document.getElementById('taskName').value,
+                emailTitle: document.getElementById('emailTitle').value,
+                emailContent: document.getElementById('emailContent').value,
+                senderType: senderType,
+                receiverType: receiverType
+            };
+
+            // 如果是手动输入，才需要发件人邮箱和密码
+            if (senderType === 2) {
+                data.senderEmail = document.getElementById('taskSenderEmail').value;
+                data.senderPassword = document.getElementById('taskSenderPassword').value;
+            }
+
+            // 如果是手动输入，才需要收件人邮箱列表
+            if (receiverType === 2) {
+                data.receiverEmails = document.getElementById('taskReceiverEmails').value;
+            }
+
+            if (isEdit) {
+                data.id = parseInt(taskId);
+            }
+
+            try {
+                const url = isEdit ? '/api/push-task' : '/api/push-task';
+                const method = isEdit ? 'PUT' : 'POST';
+                
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + getToken()
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 0) {
+                    alert(isEdit ? '更新成功' : '创建成功');
+                    closeTaskModal();
+                    loadTasks();
+                } else {
+                    alert((isEdit ? '更新' : '创建') + '失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert((isEdit ? '更新' : '创建') + '失败');
+            }
+        });
+    </script>
+</body>
+</html>

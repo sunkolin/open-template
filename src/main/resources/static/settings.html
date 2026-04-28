@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人设置 - 邮件推送系统</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* 顶部导航栏 */
+        .top-navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 60px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-weight: 600;
+            font-size: 20px;
+            text-decoration: none;
+        }
+
+        .user-info {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info span {
+            color: white;
+        }
+
+        .btn-logout {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* 左侧菜单栏 */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 60px;
+            bottom: 0;
+            width: 240px;
+            background: #2c3e50;
+            overflow-y: auto;
+            transition: all 0.3s;
+            z-index: 999;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .sidebar-menu a:hover {
+            background: #34495e;
+            color: #3498db;
+        }
+
+        .sidebar-menu a.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .sidebar-menu i {
+            margin-right: 12px;
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* 主内容区 */
+        .main-content {
+            margin-left: 240px;
+            margin-top: 60px;
+            padding: 30px;
+            min-height: calc(100vh - 60px);
+            background: #f5f6fa;
+        }
+
+        .content-wrapper {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .page-title {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        /* 表单样式 */
+        .settings-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            color: #34495e;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 10px 15px;
+            border: 2px solid #e1e5e9;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 30px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .alert {
+            border-radius: 8px;
+            display: none;
+            margin-bottom: 20px;
+        }
+
+        .info-text {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <div class="top-navbar">
+        <a class="navbar-brand" href="/index.html">📧 邮件推送系统</a>
+        <div class="user-info">
+            <span id="userName"><i class="bi bi-person-circle"></i> 加载中...</span>
+            <button class="btn-logout" onclick="logout()">
+                <i class="bi bi-box-arrow-right"></i> 退出登录
+            </button>
+        </div>
+    </div>
+
+    <!-- 左侧菜单栏 -->
+    <div class="sidebar">
+        <ul class="sidebar-menu">
+            <li>
+                <a href="/index.html">
+                    <i class="bi bi-house-door"></i>
+                    <span>首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="#mail-push">
+                    <i class="bi bi-send"></i>
+                    <span>邮件推送</span>
+                </a>
+            </li>
+            <li>
+                <a href="#sender-manage">
+                    <i class="bi bi-envelope"></i>
+                    <span>发送邮箱管理</span>
+                </a>
+            </li>
+            <li>
+                <a href="#receiver-manage">
+                    <i class="bi bi-inbox"></i>
+                    <span>接收邮箱管理</span>
+                </a>
+            </li>
+            <li>
+                <a href="/users.html">
+                    <i class="bi bi-people"></i>
+                    <span>用户管理</span>
+                </a>
+            </li>
+            <li>
+                <a href="/settings.html" class="active">
+                    <i class="bi bi-gear"></i>
+                    <span>个人设置</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="main-content">
+        <div class="content-wrapper">
+            <h2 class="page-title"><i class="bi bi-gear"></i> 个人设置</h2>
+
+            <!-- 提示信息 -->
+            <div id="successAlert" class="alert alert-success" role="alert"></div>
+            <div id="errorAlert" class="alert alert-danger" role="alert"></div>
+
+            <!-- 基本信息设置 -->
+            <div class="settings-section">
+                <h3 class="section-title"><i class="bi bi-person"></i> 基本信息</h3>
+                <form id="profileForm">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">用户名</label>
+                        <input type="text" class="form-control" id="username" disabled>
+                        <div class="info-text">用户名不可修改</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nickName" class="form-label">昵称</label>
+                        <input type="text" class="form-control" id="nickName" placeholder="请输入昵称" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">邮箱</label>
+                        <input type="email" class="form-control" id="email" placeholder="请输入邮箱" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-save">
+                        <i class="bi bi-check-circle"></i> 保存修改
+                    </button>
+                </form>
+            </div>
+
+            <hr style="margin: 40px 0;">
+
+            <!-- 密码修改 -->
+            <div class="settings-section">
+                <h3 class="section-title"><i class="bi bi-lock"></i> 修改密码</h3>
+                <form id="passwordForm">
+                    <div class="mb-3">
+                        <label for="oldPassword" class="form-label">当前密码</label>
+                        <input type="password" class="form-control" id="oldPassword" placeholder="请输入当前密码" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="newPassword" class="form-label">新密码</label>
+                        <input type="password" class="form-control" id="newPassword" placeholder="请输入新密码（至少6位）" required minlength="6">
+                        <div class="info-text">密码长度不能少于6位</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">确认新密码</label>
+                        <input type="password" class="form-control" id="confirmPassword" placeholder="请再次输入新密码" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-save">
+                        <i class="bi bi-key"></i> 修改密码
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        let currentUser = null;
+
+        // 页面加载时检查登录状态并加载用户信息
+        window.addEventListener('load', function() {
+            checkLoginAndLoadUser();
+        });
+
+        // 获取Token
+        function getToken() {
+            const userInfo = localStorage.getItem('userInfo');
+            if (userInfo) {
+                try {
+                    const user = JSON.parse(userInfo);
+                    return user.token || null;
+                } catch (e) {
+                    console.error('解析用户信息失败:', e);
+                }
+            }
+            return null;
+        }
+
+        // 检查登录并加载用户信息
+        function checkLoginAndLoadUser() {
+            const token = getToken();
+            if (!token) {
+                window.location.href = '/login.html';
+                return;
+            }
+            
+            // 直接调用需要认证的接口，如果未登录会被拦截器拦截
+            loadUserInfo();
+        }
+
+        // 加载用户信息
+        function loadUserInfo() {
+            const token = getToken();
+            if (!token) {
+                window.location.href = '/login.html';
+                return;
+            }
+            
+            fetch('/auth/currentUser', {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.code === 0 && data.data) {
+                        currentUser = data.data;
+                        
+                        // 显示用户名
+                        const nickName = currentUser.nickName || currentUser.username;
+                        document.getElementById('userName').innerHTML = 
+                            '<i class="bi bi-person-circle"></i> ' + nickName;
+                        
+                        // 填充表单
+                        document.getElementById('username').value = currentUser.username;
+                        document.getElementById('nickName').value = currentUser.nickName || '';
+                        document.getElementById('email').value = currentUser.email || '';
+                    }
+                })
+                .catch(error => {
+                    console.error('加载用户信息失败:', error);
+                });
+        }
+
+        // 隐藏所有提示
+        function hideAlerts() {
+            document.getElementById('successAlert').style.display = 'none';
+            document.getElementById('errorAlert').style.display = 'none';
+        }
+
+        // 显示成功信息
+        function showSuccess(message) {
+            hideAlerts();
+            const alert = document.getElementById('successAlert');
+            alert.textContent = message;
+            alert.style.display = 'block';
+            
+            // 3秒后自动隐藏
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 3000);
+        }
+
+        // 显示错误信息
+        function showError(message) {
+            hideAlerts();
+            const alert = document.getElementById('errorAlert');
+            alert.textContent = message;
+            alert.style.display = 'block';
+        }
+
+        // 更新个人信息
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nickName = document.getElementById('nickName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            
+            if (!nickName || !email) {
+                showError('请填写所有必填字段');
+                return;
+            }
+
+            const token = getToken();
+            if (!token) {
+                showError('请先登录');
+                setTimeout(() => {
+                    window.location.href = '/login.html';
+                }, 1000);
+                return;
+            }
+
+            fetch('/auth/profile', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({
+                    nickName: nickName,
+                    email: email
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 0) {
+                    showSuccess('个人信息更新成功');
+                    // 重新加载用户信息
+                    loadUserInfo();
+                } else {
+                    showError(data.message || '更新失败');
+                }
+            })
+            .catch(error => {
+                console.error('更新失败:', error);
+                showError('网络错误，请重试');
+            });
+        });
+
+        // 修改密码
+        document.getElementById('passwordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const oldPassword = document.getElementById('oldPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!oldPassword || !newPassword || !confirmPassword) {
+                showError('请填写所有密码字段');
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                showError('两次输入的新密码不一致');
+                return;
+            }
+
+            if (newPassword.length < 6) {
+                showError('新密码长度不能少于6位');
+                return;
+            }
+
+            const token = getToken();
+            if (!token) {
+                showError('请先登录');
+                setTimeout(() => {
+                    window.location.href = '/login.html';
+                }, 1000);
+                return;
+            }
+
+            fetch('/auth/password', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({
+                    oldPassword: oldPassword,
+                    newPassword: newPassword,
+                    confirmPassword: confirmPassword
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 0) {
+                    showSuccess('密码修改成功，请使用新密码重新登录');
+                    // 清空表单
+                    document.getElementById('passwordForm').reset();
+                    
+                    // 3秒后跳转到登录页
+                    setTimeout(() => {
+                        logout();
+                    }, 3000);
+                } else {
+                    showError(data.message || '修改失败');
+                }
+            })
+            .catch(error => {
+                console.error('修改失败:', error);
+                showError('网络错误，请重试');
+            });
+        });
+
+        // 退出登录
+        function logout() {
+            fetch('/auth/logout', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                localStorage.removeItem('userInfo');
+                window.location.href = '/login.html';
+            })
+            .catch(error => {
+                console.error('退出登录失败:', error);
+                window.location.href = '/login.html';
+            });
+        }
+    </script>
+</body>
+</html>

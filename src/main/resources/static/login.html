@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邮件推送系统 - 登录</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+        }
+        
+        .login-container {
+            max-width: 450px;
+            width: 100%;
+            padding: 20px;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .login-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .login-header h2 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        
+        .login-header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .login-body {
+            padding: 40px 30px;
+        }
+        
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .form-label {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .btn-login {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-login:active {
+            transform: translateY(0);
+        }
+        
+        .alert {
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .input-group-text {
+            background-color: #f8f9fa;
+            border: 2px solid #e1e5e9;
+            border-right: none;
+            border-radius: 8px 0 0 8px;
+        }
+        
+        .input-group .form-control {
+            border-left: none;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .remember-me {
+            margin-top: 15px;
+        }
+        
+        .loading {
+            display: none;
+        }
+        
+        .spinner-border-sm {
+            width: 1rem;
+            height: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h2>📧 邮件推送系统</h2>
+                <p>Mail Management System</p>
+            </div>
+            
+            <div class="login-body">
+                <!-- 错误提示 -->
+                <div id="errorAlert" class="alert alert-danger" role="alert"></div>
+                
+                <!-- 成功提示 -->
+                <div id="successAlert" class="alert alert-success" role="alert"></div>
+                
+                <form id="loginForm">
+                    <!-- 用户名 -->
+                    <div class="mb-3">
+                        <label for="username" class="form-label">用户名</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                                </svg>
+                            </span>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名" required>
+                        </div>
+                    </div>
+                    
+                    <!-- 密码 -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label">密码</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/>
+                                </svg>
+                            </span>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码" required>
+                        </div>
+                    </div>
+                    
+                    <!-- 记住我 -->
+                    <div class="mb-3 form-check remember-me">
+                        <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
+                        <label class="form-check-label" for="rememberMe">记住我</label>
+                    </div>
+                    
+                    <!-- 登录按钮 -->
+                    <button type="submit" class="btn btn-primary btn-login" id="loginBtn">
+                        <span class="btn-text">登 录</span>
+                        <span class="loading">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            登录中...
+                        </span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="text-center mt-3 text-white">
+            <small>&copy; 2026 邮件推送系统. All rights reserved.</small>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // 页面加载时检查是否已登录
+        window.addEventListener('load', function() {
+            checkLoginStatus();
+        });
+
+        // 检查登录状态
+        function checkLoginStatus() {
+            const userInfo = localStorage.getItem('userInfo');
+            if (!userInfo) {
+                return;
+            }
+            
+            try {
+                const user = JSON.parse(userInfo);
+                if (!user.token) {
+                    return;
+                }
+                
+                // 直接调用需要认证的接口来检查登录状态
+                fetch('/auth/currentUser', {
+                    headers: {
+                        'Authorization': 'Bearer ' + user.token
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.code === 0 && data.data) {
+                        // 已登录，跳转到主页
+                        window.location.href = '/index.html';
+                    }
+                })
+                .catch(error => {
+                    console.error('检查登录状态失败:', error);
+                });
+            } catch (e) {
+                console.error('解析用户信息失败:', e);
+            }
+        }
+
+        // 登录表单提交
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            
+            // 隐藏之前的提示
+            hideAlerts();
+            
+            // 验证输入
+            if (!username || !password) {
+                showError('请输入用户名和密码');
+                return;
+            }
+            
+            // 显示加载状态
+            showLoading(true);
+            
+            // 发送登录请求
+            fetch('/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password,
+                    rememberMe: rememberMe
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                showLoading(false);
+                
+                if (data.code === 0) {
+                    // 登录成功
+                    showSuccess('登录成功，正在跳转...');
+                    
+                    // 保存用户信息到localStorage（始终保存，用于维持会话）
+                    if (data.data) {
+                        localStorage.setItem('userInfo', JSON.stringify(data.data));
+                    }
+                    
+                    // 延迟跳转到主页
+                    setTimeout(() => {
+                        window.location.href = '/index.html';
+                    }, 1000);
+                } else {
+                    // 登录失败
+                    showError(data.message || '登录失败，请重试');
+                }
+            })
+            .catch(error => {
+                showLoading(false);
+                showError('网络错误，请重试');
+                console.error('登录失败:', error);
+            });
+        });
+
+        // 显示错误信息
+        function showError(message) {
+            const errorAlert = document.getElementById('errorAlert');
+            errorAlert.textContent = message;
+            errorAlert.style.display = 'block';
+        }
+
+        // 显示成功信息
+        function showSuccess(message) {
+            const successAlert = document.getElementById('successAlert');
+            successAlert.textContent = message;
+            successAlert.style.display = 'block';
+        }
+
+        // 隐藏所有提示
+        function hideAlerts() {
+            document.getElementById('errorAlert').style.display = 'none';
+            document.getElementById('successAlert').style.display = 'none';
+        }
+
+        // 显示/隐藏加载状态
+        function showLoading(show) {
+            const loginBtn = document.getElementById('loginBtn');
+            const btnText = loginBtn.querySelector('.btn-text');
+            const loading = loginBtn.querySelector('.loading');
+            
+            if (show) {
+                btnText.style.display = 'none';
+                loading.style.display = 'inline';
+                loginBtn.disabled = true;
+            } else {
+                btnText.style.display = 'inline';
+                loading.style.display = 'none';
+                loginBtn.disabled = false;
+            }
+        }
+
+        // 回车键提交表单
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+</body>
+</html>
