@@ -26,4 +26,9 @@ public class ProfileUpdateRequest implements Serializable {
      */
     private String email;
 
+    /**
+     * 手机号
+     */
+    private String mobile;
+
 }

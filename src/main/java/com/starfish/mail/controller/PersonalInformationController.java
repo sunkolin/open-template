@@ -60,6 +60,15 @@ public class PersonalInformationController {
             userEntity.setEmail(request.getEmail());
         }
 
+        // 更新手机号
+        if (StrUtil.isNotBlank(request.getMobile())) {
+            // 简单的手机号格式验证
+            if (!request.getMobile().matches("^1[3-9]\\d{9}$")) {
+                return Result.fail(400, "手机号格式不正确");
+            }
+            userEntity.setMobile(request.getMobile());
+        }
+
         userEntity.setModifyTime(new Date());
         userService.updateById(userEntity);
 

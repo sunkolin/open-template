@@ -41,6 +41,11 @@ public class UserResponse implements Serializable {
     private String email;
 
     /**
+     * 手机号
+     */
+    private String mobile;
+
+    /**
      * Token（用于后续请求验证）
      */
     private String token;

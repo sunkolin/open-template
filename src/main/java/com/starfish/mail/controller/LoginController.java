@@ -92,10 +92,18 @@ public class LoginController {
             return Result.fail(401, "未登录");
         }
         
+        // 从数据库获取完整的用户信息
+        UserEntity userEntity = userService.selectById(user.getUserId());
+        if (userEntity == null) {
+            return Result.fail(404, "用户不存在");
+        }
+        
         UserResponse response = new UserResponse();
-        response.setUserId(user.getUserId());
-        response.setUsername(user.getUserName());
-        response.setNickName(user.getNickName());
+        response.setUserId(userEntity.getId());
+        response.setUsername(userEntity.getUserName());
+        response.setNickName(userEntity.getNickName());
+        response.setEmail(userEntity.getEmail());
+        response.setMobile(userEntity.getMobile());
         // Token由前端管理，这里不返回
 
         return Result.success(response);
