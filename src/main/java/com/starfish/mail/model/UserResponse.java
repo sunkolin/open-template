@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * 登录响应模型
+ * 用户响应模型
  *
  * @author sunkolin
  * @version 1.0.0
@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginResponse implements Serializable {
+public class UserResponse implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

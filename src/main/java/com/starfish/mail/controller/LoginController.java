@@ -7,7 +7,7 @@ import com.starfish.mail.context.User;
 import com.starfish.mail.context.UserContext;
 import com.starfish.mail.entity.UserEntity;
 import com.starfish.mail.model.LoginRequest;
-import com.starfish.mail.model.LoginResponse;
+import com.starfish.mail.model.UserResponse;
 import com.starfish.mail.model.Result;
 import com.starfish.mail.service.UserService;
 import com.starfish.mail.util.JwtUtil;
@@ -34,7 +34,7 @@ public class LoginController {
      * @return 登录结果
      */
     @PostMapping("/login")
-    public Result<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+    public Result<UserResponse> login(@RequestBody LoginRequest loginRequest) {
         // 参数验证
         if (StrUtil.isBlank(loginRequest.getUsername()) || StrUtil.isBlank(loginRequest.getPassword())) {
             return Result.fail(400, "用户名和密码不能为空");
@@ -59,7 +59,7 @@ public class LoginController {
         String token = JwtUtil.generateToken(user.getId(), user.getUserName());
 
         // 构建响应
-        LoginResponse response = new LoginResponse();
+        UserResponse response = new UserResponse();
         response.setUserId(user.getId());
         response.setUsername(user.getUserName());
         response.setNickName(user.getNickName());
@@ -86,13 +86,13 @@ public class LoginController {
      * @return 用户信息
      */
     @GetMapping("/getUser")
-    public Result<LoginResponse> getUser() {
+    public Result<UserResponse> getUser() {
         User user = UserContext.getUser();
         if (user == null) {
             return Result.fail(401, "未登录");
         }
         
-        LoginResponse response = new LoginResponse();
+        UserResponse response = new UserResponse();
         response.setUserId(user.getUserId());
         response.setUsername(user.getUserName());
         response.setNickName(user.getNickName());
