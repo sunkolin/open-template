@@ -272,7 +272,7 @@ function renderTable(users) {
     
     if (!users || users.length === 0) {
         console.log('没有数据，显示暂无数据');
-        tbody.innerHTML = '<tr><td colspan="10" class="empty">暂无数据</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" class="empty">暂无数据</td></tr>';
         return;
     }
 
@@ -282,11 +282,8 @@ function renderTable(users) {
             <td>${user.id}</td>
             <td>${user.userName || '-'}</td>
             <td>${user.nickName || '-'}</td>
-            <td>${user.fullName || '-'}</td>
             <td>${user.mobile || '-'}</td>
             <td>${user.email || '-'}</td>
-            <td>${getSexText(user.sex)}</td>
-            <td>${user.remark || '-'}</td>
             <td>${formatDate(user.createTime)}</td>
             <td>
                 <button class="btn btn-edit" onclick="editUser(${user.id})">编辑</button>
