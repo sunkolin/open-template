@@ -2,7 +2,10 @@
   <div class="login-container">
     <div class="login-card">
       <div class="login-header">
-        <h2>📧 邮件推送系统</h2>
+        <div class="logo-icon">
+          <i class="el-icon-s-promotion"></i>
+        </div>
+        <h2>邮件推送系统</h2>
         <p>Mail Management System</p>
       </div>
       
@@ -51,7 +54,7 @@
       </div>
     </div>
     
-    <div class="text-center mt-3 text-white">
+    <div class="text-center text-gray mt-4">
       <small>&copy; 2026 邮件推送系统. All rights reserved.</small>
     </div>
   </div>
@@ -127,7 +130,7 @@ export default {
 
 <style scoped>
 .login-container {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #f5f7fa;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -139,54 +142,73 @@ export default {
 }
 
 .login-card {
-  max-width: 450px;
+  max-width: 420px;
   width: 100%;
   background: white;
-  border-radius: 15px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   overflow: hidden;
+  padding: 40px 36px;
 }
 
 .login-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 30px;
   text-align: center;
+  margin-bottom: 36px;
+}
+
+.login-header .logo-icon {
+  width: 56px;
+  height: 56px;
+  background: #409EFF;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 28px;
+  margin: 0 auto 16px;
 }
 
 .login-header h2 {
   margin: 0;
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 600;
+  color: #1a1a1a;
+  letter-spacing: 0.5px;
 }
 
 .login-header p {
-  margin: 10px 0 0 0;
-  opacity: 0.9;
-  font-size: 14px;
+  margin: 8px 0 0 0;
+  color: #999;
+  font-size: 13px;
 }
 
 .login-body {
-  padding: 40px 30px;
+  padding: 0;
 }
 
 .btn-login {
   width: 100%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #409EFF;
   border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  height: 44px;
 }
 
 .btn-login:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+  background: #66b1ff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.3);
 }
 
-.text-white {
-  color: white;
+.text-gray {
+  color: #999;
 }
 
-.mt-3 {
-  margin-top: 20px;
+.mt-4 {
+  margin-top: 24px;
 }
 
 .text-center {
@@ -196,9 +218,11 @@ export default {
 /* 版权信息固定在底部 */
 .login-container > .text-center {
   position: absolute;
-  bottom: 20px;
+  bottom: 24px;
   left: 0;
   right: 0;
   margin: 0;
+  font-size: 13px;
+  color: #999;
 }
 </style>
