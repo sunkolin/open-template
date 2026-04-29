@@ -60,16 +60,16 @@
     >
       <el-form :model="userForm" :rules="rules" ref="userForm" label-width="100px">
         <el-form-item label="昵称" prop="nickName">
-          <el-input v-model="userForm.nickName" placeholder="请输入昵称" />
+          <el-input v-model="userForm.nickName" placeholder="请输入昵称" id="nickName" />
         </el-form-item>
         <el-form-item label="密码" prop="password" v-if="!userForm.id">
-          <el-input v-model="userForm.password" type="password" placeholder="请输入密码" />
+          <el-input v-model="userForm.password" type="password" placeholder="请输入密码" id="password" />
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
-          <el-input v-model="userForm.email" placeholder="请输入邮箱" />
+          <el-input v-model="userForm.email" placeholder="请输入邮箱" id="email" />
         </el-form-item>
         <el-form-item label="手机号" prop="mobile">
-          <el-input v-model="userForm.mobile" placeholder="请输入手机号" />
+          <el-input v-model="userForm.mobile" placeholder="请输入手机号" id="mobile" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
