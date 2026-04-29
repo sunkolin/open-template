@@ -60,49 +60,79 @@ body {
 .sidebar {
     position: fixed;
     left: 0;
-    top: 60px;
+    top: 0;
     bottom: 0;
-    width: 240px;
-    background: #2c3e50;
+    width: 260px;
+    background: #ffffff;
     overflow-y: auto;
     transition: all 0.3s;
     z-index: 999;
+    border-right: 1px solid #e8e8e8;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-header {
+    padding: 24px 20px;
+    border-bottom: 1px solid #e8e8e8;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.logo-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
 }
 
 .sidebar-menu {
     list-style: none;
-    padding: 0;
+    padding: 12px 0;
     margin: 0;
 }
 
 .sidebar-menu li {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    margin: 0;
+    padding: 0;
 }
 
 .sidebar-menu a {
     display: flex;
     align-items: center;
-    padding: 15px 20px;
-    color: #ecf0f1;
+    padding: 12px 20px;
+    margin: 4px 12px;
+    color: #666;
     text-decoration: none;
     transition: all 0.3s;
+    border-radius: 8px;
+    font-size: 14px;
 }
 
 .sidebar-menu a:hover {
-    background: #34495e;
-    color: #3498db;
+    background: #f5f7fa;
+    color: #333;
 }
 
 .sidebar-menu a.active {
-    background: #3498db;
-    color: white;
+    background: #e6f7ff;
+    color: #1890ff;
+    font-weight: 500;
 }
 
-.sidebar-menu i {
+.sidebar-menu a svg {
     margin-right: 12px;
-    font-size: 18px;
-    width: 20px;
-    text-align: center;
+    flex-shrink: 0;
 }
 
 /* 主内容区 */
