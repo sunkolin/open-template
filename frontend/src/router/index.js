@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Layout from '@/components/Layout.vue'
+import AppLayout from '@/components/Layout.vue'
 
 Vue.use(VueRouter)
 
@@ -13,7 +13,7 @@ const routes = [
   },
   {
     path: '/',
-    component: Layout,
+    component: AppLayout,
     children: [
       {
         path: '',
@@ -25,7 +25,7 @@ const routes = [
   },
   {
     path: '/user',
-    component: Layout,
+    component: AppLayout,
     children: [
       {
         path: '',
@@ -37,7 +37,7 @@ const routes = [
   },
   {
     path: '/settings',
-    component: Layout,
+    component: AppLayout,
     children: [
       {
         path: '',

@@ -47,7 +47,7 @@
 import { getUserInfo } from '@/api/user'
 
 export default {
-  name: 'Layout',
+  name: 'AppLayout',
   data() {
     return {
       userName: '加载中...'
