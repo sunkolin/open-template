@@ -16,11 +16,6 @@
 
     <!-- 左侧菜单栏 -->
     <div class="sidebar">
-      <div class="sidebar-header">
-        <div class="logo-icon">
-          <i class="el-icon-s-promotion"></i>
-        </div>
-      </div>
       <el-menu
         :default-active="currentMenuIndex"
         class="sidebar-menu"
@@ -182,35 +177,7 @@ export default {
   transition: all 0.3s;
   z-index: 999;
   border-right: 1px solid #f0f0f0;
-  padding: 16px 12px;
-}
-
-.sidebar-header {
-  padding: 8px 12px 16px;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logo-icon {
-  width: 36px;
-  height: 36px;
-  background: #409EFF;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 18px;
-  flex-shrink: 0;
-}
-
-.logo-text {
-  font-size: 15px;
-  font-weight: 600;
-  color: #1a1a1a;
-  letter-spacing: 0.3px;
+  padding: 12px;
 }
 
 /* 菜单样式优化 */
