@@ -74,20 +74,19 @@ public class UserManageController {
     @PostMapping("/create")
     public Result<Long> create(@RequestBody UserCreateRequest createRequest) {
         // 参数校验
-        if (StrUtil.isBlank(createRequest.getUserName())) {
-            return Result.fail(400, "用户名不能为空");
-        }
         if (StrUtil.isBlank(createRequest.getPassword())) {
             return Result.fail(400, "密码不能为空");
         }
 
-        // 检查用户名是否已存在
-        UserEntity existUser = userService.selectOne(
-            new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<UserEntity>()
-                .eq(UserEntity::getUserName, createRequest.getUserName())
-        );
-        if (existUser != null) {
-            return Result.fail(400, "用户名已存在");
+        // 如果提供了用户名，检查是否已存在
+        if (StrUtil.isNotBlank(createRequest.getUserName())) {
+            UserEntity existUser = userService.selectOne(
+                new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<UserEntity>()
+                    .eq(UserEntity::getUserName, createRequest.getUserName())
+            );
+            if (existUser != null) {
+                return Result.fail(400, "用户名已存在");
+            }
         }
 
         Long userId = userService.createUser(createRequest);
