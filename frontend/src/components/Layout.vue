@@ -18,19 +18,19 @@
         <span class="logo-text">邮件推送系统</span>
       </div>
       <el-menu
-        :default-active="activeMenu"
+        :default-active="currentMenuIndex"
         class="sidebar-menu"
         @select="handleMenuSelect"
       >
-        <el-menu-item index="home" @click="$router.push('/')">
+        <el-menu-item index="/">
           <i class="el-icon-s-home"></i>
           <span>首页</span>
         </el-menu-item>
-        <el-menu-item index="user-manage" @click="$router.push('/user')">
+        <el-menu-item index="/user">
           <i class="el-icon-user"></i>
           <span>用户管理</span>
         </el-menu-item>
-        <el-menu-item index="settings" @click="$router.push('/settings')">
+        <el-menu-item index="/settings">
           <i class="el-icon-setting"></i>
           <span>个人设置</span>
         </el-menu-item>
@@ -39,34 +39,31 @@
 
     <!-- 主内容区 -->
     <div class="main-content">
-      <slot></slot>
+      <router-view />
     </div>
   </div>
 </template>
 
 <script>
 import { getUserInfo } from '@/api/user'
-import { mapActions } from 'vuex'
 
 export default {
   name: 'Layout',
-  props: {
-    activeMenu: {
-      type: String,
-      default: 'home'
-    }
-  },
   data() {
     return {
       userName: '加载中...'
+    }
+  },
+  computed: {
+    // 根据当前路由获取菜单激活项
+    currentMenuIndex() {
+      return this.$route.meta.menuIndex || '/'
     }
   },
   mounted() {
     this.loadUserInfo()
   },
   methods: {
-    ...mapActions(['logout']),
-    
     // 加载用户信息
     async loadUserInfo() {
       try {
@@ -81,7 +78,15 @@ export default {
     
     // 菜单选择
     handleMenuSelect(index) {
-      this.$emit('menu-select', index)
+      // 如果当前路由与点击的路由不同，才进行跳转
+      if (this.$route.path !== index) {
+        this.$router.push(index).catch(err => {
+          // 忽略导航取消错误
+          if (err.name !== 'NavigationDuplicated' && !err.message.includes('Navigation cancelled')) {
+            console.error('路由跳转失败:', err)
+          }
+        })
+      }
     },
     
     // 退出登录
@@ -91,7 +96,10 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.logout()
+        // 清除token
+        localStorage.removeItem('token')
+        localStorage.removeItem('userInfo')
+        // 跳转到登录页
         this.$router.push('/login')
         this.$message.success('已退出登录')
       }).catch(() => {})

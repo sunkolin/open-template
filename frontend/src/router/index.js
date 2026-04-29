@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Layout from '@/components/Layout.vue'
 
 Vue.use(VueRouter)
 
@@ -12,21 +13,39 @@ const routes = [
   },
   {
     path: '/',
-    name: 'Home',
-    component: () => import('@/views/home/index.vue'),
-    meta: { title: '首页', requiresAuth: true }
+    component: Layout,
+    children: [
+      {
+        path: '',
+        name: 'Home',
+        component: () => import('@/views/home/index.vue'),
+        meta: { title: '首页', requiresAuth: true, menuIndex: '/' }
+      }
+    ]
   },
   {
     path: '/user',
-    name: 'User',
-    component: () => import('@/views/user/index.vue'),
-    meta: { title: '用户管理', requiresAuth: true }
+    component: Layout,
+    children: [
+      {
+        path: '',
+        name: 'User',
+        component: () => import('@/views/user/index.vue'),
+        meta: { title: '用户管理', requiresAuth: true, menuIndex: '/user' }
+      }
+    ]
   },
   {
     path: '/settings',
-    name: 'Settings',
-    component: () => import('@/views/settings/index.vue'),
-    meta: { title: '个人设置', requiresAuth: true }
+    component: Layout,
+    children: [
+      {
+        path: '',
+        name: 'Settings',
+        component: () => import('@/views/settings/index.vue'),
+        meta: { title: '个人设置', requiresAuth: true, menuIndex: '/settings' }
+      }
+    ]
   }
 ]
 
