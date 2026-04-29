@@ -61,7 +61,7 @@
 import { login } from '@/api/user'
 
 export default {
-  name: 'Login',
+  name: 'LoginPage',
   data() {
     return {
       loginForm: {
@@ -130,10 +130,12 @@ export default {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-family: 'Microsoft YaHei', Arial, sans-serif;
   padding: 20px;
+  position: relative;
 }
 
 .login-card {
@@ -189,5 +191,14 @@ export default {
 
 .text-center {
   text-align: center;
+}
+
+/* 版权信息固定在底部 */
+.login-container > .text-center {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  margin: 0;
 }
 </style>

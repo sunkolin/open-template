@@ -103,7 +103,7 @@ import { getUserInfo, updateUserInfo, changePassword } from '@/api/user'
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'Settings',
+  name: 'UserSettings',
   data() {
     const validateConfirmPassword = (rule, value, callback) => {
       if (value !== this.passwordForm.newPassword) {

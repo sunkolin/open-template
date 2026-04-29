@@ -74,7 +74,7 @@ import { getUserInfo } from '@/api/user'
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'Home',
+  name: 'HomePage',
   data() {
     return {
       userName: '加载中...',

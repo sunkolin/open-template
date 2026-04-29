@@ -22,6 +22,9 @@ echo -e "${GREEN}========================================${NC}"
 
 # 1. Maven 打包
 echo -e "${YELLOW}[1/4] 开始 Maven 打包...${NC}"
+# 获取脚本所在目录（即backend目录）
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$SCRIPT_DIR"
 mvn clean install -Dmaven.test.skip=true -Dmaven.resources.overwrite=true
 if [ $? -ne 0 ]; then
     echo -e "${RED}Maven 打包失败，退出脚本${NC}"

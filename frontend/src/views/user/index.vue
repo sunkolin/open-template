@@ -127,7 +127,7 @@ import { getUserList, createUser, updateUser, deleteUser } from '@/api/user'
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'User',
+  name: 'UserManagement',
   data() {
     return {
       userName: '加载中...',
