@@ -6,17 +6,16 @@
     <div class="settings-section">
       <h3 class="section-title"><i class="el-icon-user"></i> 基本信息</h3>
       <el-form :model="profileForm" :rules="profileRules" ref="profileForm" label-width="100px">
-        <el-form-item label="用户名">
-          <el-input v-model="profileForm.username" disabled />
-          <div class="info-text">用户名不可修改</div>
-        </el-form-item>
-
         <el-form-item label="昵称" prop="nickName">
           <el-input v-model="profileForm.nickName" placeholder="请输入昵称" />
         </el-form-item>
 
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="profileForm.email" placeholder="请输入邮箱" />
+        </el-form-item>
+
+        <el-form-item label="手机号" prop="mobile">
+          <el-input v-model="profileForm.mobile" placeholder="请输入手机号" />
         </el-form-item>
 
         <el-form-item>
@@ -38,8 +37,7 @@
         </el-form-item>
 
         <el-form-item label="新密码" prop="newPassword">
-          <el-input v-model="passwordForm.newPassword" type="password" placeholder="请输入新密码（至少6位）" />
-          <div class="info-text">密码长度不能少于6位</div>
+          <el-input v-model="passwordForm.newPassword" type="password" placeholder="请输入新密码" show-password />
         </el-form-item>
 
         <el-form-item label="确认新密码" prop="confirmPassword">
@@ -74,9 +72,9 @@ export default {
       profileLoading: false,
       passwordLoading: false,
       profileForm: {
-        username: '',
         nickName: '',
-        email: ''
+        email: '',
+        mobile: ''
       },
       profileRules: {
         nickName: [
@@ -97,8 +95,7 @@ export default {
           { required: true, message: '请输入当前密码', trigger: 'blur' }
         ],
         newPassword: [
-          { required: true, message: '请输入新密码', trigger: 'blur' },
-          { min: 6, message: '密码长度不能少于6位', trigger: 'blur' }
+          { required: true, message: '请输入新密码', trigger: 'blur' }
         ],
         confirmPassword: [
           { required: true, message: '请确认新密码', trigger: 'blur' },
@@ -117,9 +114,9 @@ export default {
         const response = await getUserInfo()
         if (response.code === 0 && response.data) {
           this.profileForm = {
-            username: response.data.username,
             nickName: response.data.nickName,
-            email: response.data.email
+            email: response.data.email,
+            mobile: response.data.mobile
           }
         }
       } catch (error) {
@@ -137,7 +134,8 @@ export default {
         
         await updateUserInfo({
           nickName: this.profileForm.nickName,
-          email: this.profileForm.email
+          email: this.profileForm.email,
+          mobile: this.profileForm.mobile
         })
         
         this.$message.success('保存成功')
