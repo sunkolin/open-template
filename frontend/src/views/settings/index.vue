@@ -6,16 +6,16 @@
     <div class="settings-section">
       <h3 class="section-title"><i class="el-icon-user"></i> 基本信息</h3>
       <el-form :model="profileForm" :rules="profileRules" ref="profileForm" label-width="100px">
-        <el-form-item label="昵称" prop="nickName">
-          <el-input v-model="profileForm.nickName" placeholder="请输入昵称" />
+        <el-form-item label="昵称" prop="profileNickName">
+          <el-input v-model="profileForm.nickName" placeholder="请输入昵称" id="profileNickName" />
         </el-form-item>
 
-        <el-form-item label="邮箱" prop="email">
-          <el-input v-model="profileForm.email" placeholder="请输入邮箱" />
+        <el-form-item label="邮箱" prop="profileEmail">
+          <el-input v-model="profileForm.email" placeholder="请输入邮箱" id="profileEmail" />
         </el-form-item>
 
-        <el-form-item label="手机号" prop="mobile">
-          <el-input v-model="profileForm.mobile" placeholder="请输入手机号" />
+        <el-form-item label="手机号" prop="profileMobile">
+          <el-input v-model="profileForm.mobile" placeholder="请输入手机号" id="profileMobile" />
         </el-form-item>
 
         <el-form-item>
@@ -33,15 +33,15 @@
       <h3 class="section-title"><i class="el-icon-lock"></i> 修改密码</h3>
       <el-form :model="passwordForm" :rules="passwordRules" ref="passwordForm" label-width="120px">
         <el-form-item label="当前密码" prop="oldPassword">
-          <el-input v-model="passwordForm.oldPassword" type="password" placeholder="请输入当前密码" />
+          <el-input v-model="passwordForm.oldPassword" type="password" placeholder="请输入当前密码" id="oldPassword" />
         </el-form-item>
 
         <el-form-item label="新密码" prop="newPassword">
-          <el-input v-model="passwordForm.newPassword" type="password" placeholder="请输入新密码" show-password />
+          <el-input v-model="passwordForm.newPassword" type="password" placeholder="请输入新密码" show-password id="newPassword" />
         </el-form-item>
 
         <el-form-item label="确认新密码" prop="confirmPassword">
-          <el-input v-model="passwordForm.confirmPassword" type="password" placeholder="请再次输入新密码" />
+          <el-input v-model="passwordForm.confirmPassword" type="password" placeholder="请再次输入新密码" id="confirmPassword" />
         </el-form-item>
 
         <el-form-item>
@@ -77,10 +77,10 @@ export default {
         mobile: ''
       },
       profileRules: {
-        nickName: [
+        profileNickName: [
           { required: true, message: '请输入昵称', trigger: 'blur' }
         ],
-        email: [
+        profileEmail: [
           { required: true, message: '请输入邮箱', trigger: 'blur' },
           { type: 'email', message: '请输入正确的邮箱格式', trigger: 'blur' }
         ]
