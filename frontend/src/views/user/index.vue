@@ -5,9 +5,9 @@
     <!-- 搜索工具栏 -->
     <div class="toolbar">
       <div class="search-form">
-        <el-input v-model="searchParams.nickName" placeholder="昵称" clearable style="width: 150px; margin-right: 10px;" />
-        <el-input v-model="searchParams.email" placeholder="邮箱" clearable style="width: 200px; margin-right: 10px;" />
-        <el-input v-model="searchParams.mobile" placeholder="手机号" clearable style="width: 150px; margin-right: 10px;" />
+        <el-input v-model="searchParams.nickName" placeholder="昵称" clearable style="width: 150px; margin-right: 10px;" id="searchNickName" />
+        <el-input v-model="searchParams.email" placeholder="邮箱" clearable style="width: 200px; margin-right: 10px;" id="searchEmail" />
+        <el-input v-model="searchParams.mobile" placeholder="手机号" clearable style="width: 150px; margin-right: 10px;" id="searchMobile" />
         <el-button type="primary" @click="handleSearch" icon="el-icon-search">搜索</el-button>
         <el-button @click="resetSearch" icon="el-icon-refresh">重置</el-button>
       </div>
