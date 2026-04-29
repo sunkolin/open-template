@@ -43,7 +43,7 @@ export default {
   color: #2c3e50;
   margin-bottom: 20px;
   padding-bottom: 15px;
-  border-bottom: 2px solid #667eea;
+  border-bottom: 2px solid #409EFF;
   font-weight: 600;
 }
 
@@ -54,7 +54,7 @@ export default {
 }
 
 .welcome-section h1 {
-  color: #667eea;
+  color: #409EFF;
   margin-bottom: 15px;
   font-size: 32px;
 }
@@ -73,7 +73,7 @@ export default {
 }
 
 .feature-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #409EFF;
   border-radius: 10px;
   padding: 25px;
   color: white;
@@ -83,7 +83,7 @@ export default {
 
 .feature-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 10px 25px rgba(64, 158, 255, 0.4);
 }
 
 .feature-card i {
