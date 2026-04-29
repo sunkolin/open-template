@@ -1,7 +1,5 @@
 <template>
   <div class="home-content">
-    <h2 class="page-title">欢迎使用邮件推送系统</h2>
-    
     <div class="welcome-section">
       <h1>👋 欢迎回来！</h1>
       <p>这是一个功能强大的邮件批量推送管理平台，帮助您高效管理邮件发送任务</p>
