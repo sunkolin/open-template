@@ -1,5 +1,5 @@
 <template>
-  <div class="home-container">
+  <div class="layout-container">
     <!-- 顶部导航栏 -->
     <div class="top-navbar">
       <a class="navbar-brand" href="#">📧 邮件推送系统</a>
@@ -22,7 +22,7 @@
         class="sidebar-menu"
         @select="handleMenuSelect"
       >
-        <el-menu-item index="home">
+        <el-menu-item index="home" @click="$router.push('/')">
           <i class="el-icon-s-home"></i>
           <span>首页</span>
         </el-menu-item>
@@ -39,32 +39,7 @@
 
     <!-- 主内容区 -->
     <div class="main-content">
-      <div class="content-wrapper">
-        <h2 class="page-title">欢迎使用邮件推送系统</h2>
-        
-        <div class="welcome-section">
-          <h1>👋 欢迎回来！</h1>
-          <p>这是一个功能强大的邮件批量推送管理平台，帮助您高效管理邮件发送任务</p>
-        </div>
-
-        <div class="feature-grid">
-          <div class="feature-card" @click="switchToSection('user-manage')">
-            <i class="el-icon-user"></i>
-            <h3>用户管理</h3>
-            <p>管理系统用户和权限设置</p>
-          </div>
-          <div class="feature-card" @click="$message.info('功能开发中...')">
-            <i class="el-icon-data-analysis"></i>
-            <h3>数据统计</h3>
-            <p>查看邮件发送统计和分析报告</p>
-          </div>
-          <div class="feature-card" @click="$message.info('功能开发中...')">
-            <i class="el-icon-setting"></i>
-            <h3>系统设置</h3>
-            <p>配置系统参数和个性化选项</p>
-          </div>
-        </div>
-      </div>
+      <slot></slot>
     </div>
   </div>
 </template>
@@ -74,11 +49,16 @@ import { getUserInfo } from '@/api/user'
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'Home',
+  name: 'Layout',
+  props: {
+    activeMenu: {
+      type: String,
+      default: 'home'
+    }
+  },
   data() {
     return {
-      userName: '加载中...',
-      activeMenu: 'home'
+      userName: '加载中...'
     }
   },
   mounted() {
@@ -101,17 +81,7 @@ export default {
     
     // 菜单选择
     handleMenuSelect(index) {
-      this.activeMenu = index
-      this.switchToSection(index)
-    },
-    
-    // 切换到指定视图
-    switchToSection(sectionName) {
-      if (sectionName === 'user-manage') {
-        this.$router.push('/user')
-      } else if (sectionName === 'settings') {
-        this.$router.push('/settings')
-      }
+      this.$emit('menu-select', index)
     },
     
     // 退出登录
@@ -131,7 +101,7 @@ export default {
 </script>
 
 <style scoped>
-.home-container {
+.layout-container {
   width: 100%;
   height: 100vh;
   overflow: hidden;
@@ -222,76 +192,5 @@ export default {
   padding: 30px;
   min-height: calc(100vh - 60px);
   background: #f5f6fa;
-}
-
-.content-wrapper {
-  background: white;
-  border-radius: 10px;
-  padding: 30px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  min-height: calc(100vh - 180px);
-}
-
-.page-title {
-  font-size: 24px;
-  color: #2c3e50;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid #667eea;
-  font-weight: 600;
-}
-
-/* 欢迎卡片 */
-.welcome-section {
-  text-align: center;
-  padding: 40px 20px;
-}
-
-.welcome-section h1 {
-  color: #667eea;
-  margin-bottom: 15px;
-  font-size: 32px;
-}
-
-.welcome-section p {
-  color: #7f8c8d;
-  font-size: 16px;
-}
-
-/* 功能卡片 */
-.feature-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  margin-top: 30px;
-}
-
-.feature-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 10px;
-  padding: 25px;
-  color: white;
-  transition: all 0.3s;
-  cursor: pointer;
-}
-
-.feature-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-}
-
-.feature-card i {
-  font-size: 48px;
-  margin-bottom: 15px;
-}
-
-.feature-card h3 {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-.feature-card p {
-  opacity: 0.9;
-  font-size: 14px;
 }
 </style>
