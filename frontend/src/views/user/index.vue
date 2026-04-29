@@ -22,11 +22,11 @@
       stripe
       style="width: 100%; margin-top: 20px;"
     >
-      <el-table-column prop="id" label="ID" width="80" align="center" />
-      <el-table-column prop="nickName" label="昵称" width="120" />
-      <el-table-column prop="email" label="邮箱" min-width="200" />
-      <el-table-column prop="mobile" label="手机号" width="130" />
-      <el-table-column prop="createTime" label="创建时间" width="180">
+      <el-table-column prop="id" label="ID" align="center" />
+      <el-table-column prop="nickName" label="昵称" align="center" />
+      <el-table-column prop="email" label="邮箱" align="center" />
+      <el-table-column prop="mobile" label="手机号" align="center" />
+      <el-table-column prop="createTime" label="创建时间" align="center">
         <template slot-scope="scope">
           {{ formatDate(scope.row.createTime) }}
         </template>
