@@ -212,7 +212,8 @@ export default {
         
         await changePassword({
           oldPassword: this.passwordForm.oldPassword,
-          newPassword: this.passwordForm.newPassword
+          newPassword: this.passwordForm.newPassword,
+          confirmPassword: this.passwordForm.confirmPassword
         })
         
         this.$message.success('密码修改成功，请重新登录')

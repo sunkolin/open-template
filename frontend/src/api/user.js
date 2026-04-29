@@ -16,7 +16,7 @@ export function login(data) {
  */
 export function getUserInfo() {
   return request({
-    url: '/user/info',
+    url: '/getUser',
     method: 'get'
   })
 }
@@ -26,7 +26,7 @@ export function getUserInfo() {
  */
 export function updateUserInfo(data) {
   return request({
-    url: '/user/update',
+    url: '/personalInformation/profile',
     method: 'put',
     data
   })
@@ -37,8 +37,8 @@ export function updateUserInfo(data) {
  */
 export function changePassword(data) {
   return request({
-    url: '/user/password/change',
-    method: 'post',
+    url: '/personalInformation/password',
+    method: 'put',
     data
   })
 }
@@ -48,9 +48,9 @@ export function changePassword(data) {
  */
 export function getUserList(params) {
   return request({
-    url: '/user/list',
-    method: 'get',
-    params
+    url: '/userManage/page',
+    method: 'post',
+    data: params
   })
 }
 
@@ -59,7 +59,7 @@ export function getUserList(params) {
  */
 export function createUser(data) {
   return request({
-    url: '/user/create',
+    url: '/userManage/create',
     method: 'post',
     data
   })
@@ -70,8 +70,8 @@ export function createUser(data) {
  */
 export function updateUser(data) {
   return request({
-    url: '/user/update',
-    method: 'put',
+    url: '/userManage/update',
+    method: 'post',
     data
   })
 }
@@ -81,7 +81,7 @@ export function updateUser(data) {
  */
 export function deleteUser(id) {
   return request({
-    url: `/user/delete/${id}`,
+    url: `/userManage/${id}`,
     method: 'delete'
   })
 }
