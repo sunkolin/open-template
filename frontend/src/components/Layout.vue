@@ -117,9 +117,9 @@ export default {
 
 /* 顶部导航栏 */
 .top-navbar {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #ffffff;
   height: 60px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
   position: fixed;
   top: 0;
   left: 0;
@@ -127,25 +127,27 @@ export default {
   z-index: 1000;
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 24px;
 }
 
 .navbar-brand {
-  color: white;
-  font-weight: 600;
-  font-size: 20px;
+  color: #1a1a1a;
+  font-weight: 700;
+  font-size: 18px;
   text-decoration: none;
+  letter-spacing: 0.5px;
 }
 
 .user-info {
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 16px;
 }
 
 .user-info span {
-  color: white;
+  color: #666;
+  font-size: 14px;
 }
 
 /* 左侧菜单栏 */
@@ -154,50 +156,92 @@ export default {
   left: 0;
   top: 60px;
   bottom: 0;
-  width: 260px;
-  background: #ffffff;
+  width: 240px;
+  background: #fafafa;
   overflow-y: auto;
   transition: all 0.3s;
   z-index: 999;
-  border-right: 1px solid #e8e8e8;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+  border-right: 1px solid #f0f0f0;
+  padding: 16px 12px;
 }
 
 .sidebar-header {
-  padding: 24px 20px;
-  border-bottom: 1px solid #e8e8e8;
+  padding: 8px 12px 24px;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
 .logo-icon {
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 12px;
+  width: 36px;
+  height: 36px;
+  background: #409EFF;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 20px;
+  font-size: 18px;
+  flex-shrink: 0;
 }
 
 .logo-text {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
-  color: #333;
+  color: #1a1a1a;
+  letter-spacing: 0.3px;
 }
 
+/* 菜单样式优化 */
 .sidebar-menu {
   border: none;
+  background: transparent;
+}
+
+.sidebar-menu .el-menu-item {
+  height: 44px;
+  line-height: 44px;
+  margin-bottom: 4px;
+  border-radius: 8px;
+  color: #666;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  padding-left: 16px !important;
+}
+
+.sidebar-menu .el-menu-item i {
+  color: #999;
+  font-size: 18px;
+  margin-right: 12px;
+  transition: all 0.2s ease;
+}
+
+.sidebar-menu .el-menu-item:hover {
+  background: #f0f0f0;
+  color: #1a1a1a;
+}
+
+.sidebar-menu .el-menu-item:hover i {
+  color: #409EFF;
+}
+
+.sidebar-menu .el-menu-item.is-active {
+  background: #E6F7FF;
+  color: #409EFF;
+  font-weight: 500;
+}
+
+.sidebar-menu .el-menu-item.is-active i {
+  color: #409EFF;
 }
 
 /* 主内容区 */
 .main-content {
-  margin-left: 260px;
+  margin-left: 240px;
   margin-top: 60px;
-  padding: 30px;
+  padding: 24px;
   min-height: calc(100vh - 60px);
   background: #f5f6fa;
 }
