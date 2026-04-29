@@ -2,7 +2,12 @@
   <div class="layout-container">
     <!-- 顶部导航栏 -->
     <div class="top-navbar">
-      <a class="navbar-brand" href="#">📧 邮件推送系统</a>
+      <div class="navbar-brand">
+        <div class="nav-logo-icon">
+          <i class="el-icon-s-promotion"></i>
+        </div>
+        <span>邮件推送系统</span>
+      </div>
       <div class="user-info">
         <span><i class="el-icon-user"></i> {{ userName }}</span>
         <el-button size="small" @click="handleLogout" icon="el-icon-switch-button">退出登录</el-button>
@@ -15,7 +20,6 @@
         <div class="logo-icon">
           <i class="el-icon-s-promotion"></i>
         </div>
-        <span class="logo-text">邮件推送系统</span>
       </div>
       <el-menu
         :default-active="currentMenuIndex"
@@ -131,11 +135,27 @@ export default {
 }
 
 .navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   color: #1a1a1a;
   font-weight: 700;
   font-size: 18px;
   text-decoration: none;
   letter-spacing: 0.5px;
+}
+
+.nav-logo-icon {
+  width: 36px;
+  height: 36px;
+  background: #409EFF;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  flex-shrink: 0;
 }
 
 .user-info {
@@ -166,12 +186,11 @@ export default {
 }
 
 .sidebar-header {
-  padding: 8px 12px 24px;
-  border-bottom: 1px solid #f0f0f0;
-  margin-bottom: 16px;
+  padding: 8px 12px 16px;
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
 }
 
 .logo-icon {
