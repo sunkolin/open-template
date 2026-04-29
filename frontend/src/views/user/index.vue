@@ -22,16 +22,16 @@
       stripe
       style="width: 100%; margin-top: 20px;"
     >
-      <el-table-column prop="id" label="ID" width="80" />
+      <el-table-column prop="id" label="ID" width="80" align="center" />
       <el-table-column prop="nickName" label="昵称" width="120" />
-      <el-table-column prop="email" label="邮箱" width="200" />
+      <el-table-column prop="email" label="邮箱" min-width="200" />
       <el-table-column prop="mobile" label="手机号" width="130" />
       <el-table-column prop="createTime" label="创建时间" width="180">
         <template slot-scope="scope">
           {{ formatDate(scope.row.createTime) }}
         </template>
       </el-table-column>
-      <el-table-column label="操作" fixed="right" width="200">
+      <el-table-column label="操作" width="180" align="center" fixed="right">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.row)" icon="el-icon-edit">编辑</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.row)" icon="el-icon-delete">删除</el-button>
@@ -277,8 +277,6 @@ export default {
   font-size: 24px;
   color: #2c3e50;
   margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid #667eea;
   font-weight: 600;
 }
 

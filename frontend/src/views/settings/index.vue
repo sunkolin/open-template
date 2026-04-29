@@ -197,8 +197,6 @@ export default {
   font-size: 24px;
   color: #2c3e50;
   margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid #667eea;
   font-weight: 600;
 }
 
