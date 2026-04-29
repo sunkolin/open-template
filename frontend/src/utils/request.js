@@ -27,8 +27,8 @@ service.interceptors.response.use(
   response => {
     const res = response.data
     
-    // 根据后端返回的code判断请求是否成功
-    if (res.code !== 200) {
+    // 根据后端返回的code判断请求是否成功（后端成功码为0）
+    if (res.code !== 0) {
       console.error('响应错误:', res.message || 'Error')
       
       // 401: 未授权，跳转到登录页

@@ -188,7 +188,7 @@ export default {
           }
         })
         
-        if (response.code === 200 && response.data) {
+        if (response.code === 0 && response.data) {
           this.userName = response.data.nickName || response.data.username
         }
       } catch (error) {
@@ -213,7 +213,7 @@ export default {
         
         const response = await getUserList(params)
         
-        if (response.code === 200) {
+        if (response.code === 0) {
           this.userList = response.data.list || []
           this.total = response.data.total || 0
         }

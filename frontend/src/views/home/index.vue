@@ -91,7 +91,7 @@ export default {
     async loadUserInfo() {
       try {
         const response = await getUserInfo()
-        if (response.code === 200 && response.data) {
+        if (response.code === 0 && response.data) {
           this.userName = response.data.nickName || response.data.username
         }
       } catch (error) {

@@ -101,7 +101,7 @@ export default {
         
         const response = await login(this.loginForm)
         
-        if (response.code === 200 && response.data && response.data.token) {
+        if (response.code === 0 && response.data && response.data.token) {
           // 保存token
           localStorage.setItem('token', response.data.token)
           
