@@ -1,5 +1,4 @@
 # 进入前端目录
-cd frontend
 
 # 安装依赖
 npm install
