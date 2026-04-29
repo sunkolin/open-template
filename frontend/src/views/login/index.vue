@@ -108,12 +108,8 @@ export default {
           // 保存token
           localStorage.setItem('token', response.data.token)
           
-          this.$message.success('登录成功，正在跳转...')
-          
-          // 延迟跳转到主页
-          setTimeout(() => {
-            this.$router.push('/')
-          }, 1000)
+          // 直接跳转到主页
+          this.$router.push('/')
         } else {
           this.$message.error(response.message || '登录失败，请重试')
         }
